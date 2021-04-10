@@ -1,0 +1,17 @@
+{
+    "name": "semperton/query",
+    "description": "The Semperton Query component.",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Semperton\\Query\\": "src/"
+        }
+    },
+    "scripts": {
+        "test": "phpunit tests"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.5"
+    }
+}
