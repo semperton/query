@@ -46,7 +46,7 @@ final class Filter implements ExpressionInterface
 
 			$bool = $condition[0];
 			$column = $condition[1];
-			$operator = $condition[2];
+			$operator = strtolower($condition[2]);
 			$value = $condition[3];
 
 			if (is_callable($column)) { // sub filter
@@ -69,7 +69,7 @@ final class Filter implements ExpressionInterface
 					$sql[] = $bool;
 				}
 
-				$sql[] = $column;
+				$sql[] = $this->factory->quoteIdentifier($column);
 				$sql[] = $operator;
 
 				if ($value instanceof ExpressionInterface) {
@@ -78,12 +78,21 @@ final class Filter implements ExpressionInterface
 
 					$subParams = [];
 					foreach ($value as $val) {
-						$param = $this->factory->newParameter();
-						$params[$param] = $val;
-						$subParams[] = $param;
+
+						if ($val instanceof ExpressionInterface) {
+							$subParams[] = $val->compile($params);
+						} else {
+							$param = $this->factory->newParameter();
+							$params[$param] = $val;
+							$subParams[] = $param;
+						}
 					}
 
-					$sql[] = '(' . implode(', ', $subParams) . ')';
+					if ($operator === 'between' && count($value) == 2) {
+						$sql[] = implode(' and ', $subParams);
+					} else {
+						$sql[] = '(' . implode(', ', $subParams) . ')';
+					}
 				} else {
 					$param = $this->factory->newParameter();
 					$params[$param] = $value;
