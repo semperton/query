@@ -46,7 +46,7 @@ final class Filter implements ExpressionInterface
 
 			$bool = $condition[0];
 			$column = $condition[1];
-			$operator = strtolower($condition[2]);
+			$operator = $condition[2];
 			$value = $condition[3];
 
 			if (is_callable($column)) { // sub filter
@@ -68,6 +68,8 @@ final class Filter implements ExpressionInterface
 				if (!$first) {
 					$sql[] = $bool;
 				}
+
+				$operator = strtolower($operator);
 
 				$sql[] = $this->factory->quoteIdentifier($column);
 				$sql[] = $operator;
