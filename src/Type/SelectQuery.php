@@ -76,23 +76,29 @@ final class SelectQuery extends Expression
 
 	public function innerJoin($table, string $alias = ''): self
 	{
-		$join = new Join($this->factory, Join::TYPE_INNER);
+		$this->addJoin($table, $alias, Join::TYPE_INNER);
+		return $this;
+	}
+
+	public function leftJoin($table, string $alias = ''): self
+	{
+		$this->addJoin($table, $alias, Join::TYPE_LEFT);
+		return $this;
+	}
+
+	public function rightJoin($table, string $alias = ''): self
+	{
+		$this->addJoin($table, $alias, Join::TYPET_RIGHT);
+		return $this;
+	}
+
+	protected function addJoin($table, string $alias, string $type): void
+	{
+		$join = new Join($this->factory, $type);
 		$join->table($table, $alias);
 
 		$this->joins[] = $join;
 		$this->lastJoin = $join;
-
-		return $this;
-	}
-
-	public function leftJoin(): self
-	{
-		return $this;
-	}
-
-	public function rightJoin(): self
-	{
-		return $this;
 	}
 
 	public function on($col, ?string $op = null, $value = null): self
