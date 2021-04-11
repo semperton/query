@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Semperton\Query\Partial;
 
+use RuntimeException;
 use Semperton\Query\ExpressionInterface;
 use Semperton\Query\QueryFactory;
 
@@ -69,9 +70,21 @@ final class Filter implements ExpressionInterface
 					$sql[] = $bool;
 				}
 
-				$operator = strtolower($operator);
+				if(is_string($column)){
+					$sql[] = $this->factory->quoteIdentifier($column);
+				}
+				else if($value instanceof ExpressionInterface){
+					$sql[] = $column->compile($params);
+				}
+				else{
+					throw new RuntimeException('Invalid filter argument');
+				}
 
-				$sql[] = $this->factory->quoteIdentifier($column);
+				if(empty($operator)){
+					continue;
+				}
+
+				$operator = strtolower($operator);
 				$sql[] = $operator;
 
 				if ($value instanceof ExpressionInterface) {
