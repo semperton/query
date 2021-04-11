@@ -8,6 +8,9 @@ trait LimitTrait
 {
 	protected $limit = 0;
 
+	/**
+	 * @return static
+	 */
 	public function limit(int $num): self
 	{
 		$this->limit = $num;
