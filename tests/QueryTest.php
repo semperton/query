@@ -39,7 +39,7 @@ final class QueryTest extends TestCase
 
 		$q->reset();
 
-		$exp = $q->expr(':num');
+		$exp = $q->raw(':num');
 		$q->fields(['id', 'username', 'stars' => $exp])->from('user')->where('id')->bind('num', 55);
 
 		$expected = "select id, username, 55 stars from user where id";

@@ -4,19 +4,25 @@ declare(strict_types=1);
 
 namespace Semperton\Query\Type;
 
+use Semperton\Query\ExpressionInterface;
 use Semperton\Query\Partial\Field;
 use Semperton\Query\Partial\Filter;
 use Semperton\Query\Partial\Join;
 use Semperton\Query\Partial\Order;
 use Semperton\Query\Partial\Table;
 use Semperton\Query\QueryFactory;
-use Semperton\Query\Partial\Expression;
+use Semperton\Query\Trait\ExpressionTrait;
 use Semperton\Query\Trait\LimitTrait;
 use Semperton\Query\Trait\OrderByTrait;
 use Semperton\Query\Trait\WhereTrait;
 
-final class SelectQuery extends Expression
+final class SelectQuery implements ExpressionInterface
 {
+	use ExpressionTrait;
+	use WhereTrait;
+	use OrderByTrait;
+	use LimitTrait;
+
 	protected $distinct = false;
 
 	protected $fields;
@@ -34,14 +40,9 @@ final class SelectQuery extends Expression
 	/** @var Join */
 	protected $lastJoin;
 
-	use WhereTrait;
-	use OrderByTrait;
-	use LimitTrait;
-
 	public function __construct(QueryFactory $factory)
 	{
-		parent::__construct($factory, 'select');
-
+		$this->factory = $factory;
 		$this->fields = new Field($factory);
 		$this->tables = new Table($factory);
 		$this->where = new Filter($factory);
@@ -158,8 +159,7 @@ final class SelectQuery extends Expression
 
 	public function reset(): self
 	{
-		parent::reset();
-
+		$this->params = [];
 		$this->distinct = false;
 		$this->limit = 0;
 		$this->offset = 0;
@@ -235,7 +235,7 @@ final class SelectQuery extends Expression
 			}
 		}
 
-		// add user params
+		// merge user params
 		$params = array_merge($params, $this->params);
 
 		return implode(' ', $sql);

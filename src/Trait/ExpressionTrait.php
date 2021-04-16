@@ -2,29 +2,24 @@
 
 declare(strict_types=1);
 
-namespace Semperton\Query\Partial;
+namespace Semperton\Query\Trait;
 
 use InvalidArgumentException;
-use Semperton\Query\ExpressionInterface;
+use Semperton\Query\Partial\Func;
+use Semperton\Query\Partial\Identifier;
+use Semperton\Query\Partial\Raw;
 use Semperton\Query\QueryFactory;
 
-class Expression implements ExpressionInterface
+trait ExpressionTrait
 {
 	protected $params = [];
 
-	protected $value;
-
+	/** @var QueryFactory */
 	protected $factory;
 
-	public function __construct(QueryFactory $factory, string $value)
+	public function raw(string $value): Raw
 	{
-		$this->factory = $factory;
-		$this->value = $value;
-	}
-
-	public function expr(string $value): Expression
-	{
-		return $this->factory->expr($value);
+		return $this->factory->raw($value);
 	}
 
 	public function ident(string $value): Identifier
@@ -39,6 +34,7 @@ class Expression implements ExpressionInterface
 
 	public function debug(): string
 	{
+		$params = [];
 		$sql = $this->compile($params);
 
 		foreach ($params as &$value) {
@@ -55,6 +51,9 @@ class Expression implements ExpressionInterface
 		return str_replace($search, $replace, $sql);
 	}
 
+	/**
+	 * @return static
+	 */
 	public function bind(string $param, $value): self
 	{
 		if (!is_scalar($value)) {
@@ -64,24 +63,5 @@ class Expression implements ExpressionInterface
 		$param = ':' . ltrim($param, ':');
 		$this->params[$param] = $value;
 		return $this;
-	}
-
-	public function isValid(): bool
-	{
-		return !empty($this->value);
-	}
-
-	public function reset(): self
-	{
-		$this->params = [];
-		return $this;
-	}
-
-	public function compile(?array &$params = null): string
-	{
-		$params = $params ?? [];
-		$params = array_merge($params, $this->params);
-
-		return $this->value;
 	}
 }

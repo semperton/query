@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Semperton\Query;
 
-use Semperton\Query\Partial\Expression;
 use Semperton\Query\Partial\Func;
 use Semperton\Query\Partial\Identifier;
+use Semperton\Query\Partial\Raw;
 use Semperton\Query\Type\DeleteQuery;
 use Semperton\Query\Type\DropQuery;
 use Semperton\Query\Type\InsertQuery;
@@ -67,9 +67,9 @@ class QueryFactory
 		return $query;
 	}
 
-	public function expr(string $value): Expression
+	public function raw(string $value): Raw
 	{
-		return new Expression($this, $value);
+		return new Raw($this, $value);
 	}
 
 	public function ident(string $value): Identifier

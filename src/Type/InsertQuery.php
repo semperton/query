@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 namespace Semperton\Query\Type;
 
-use Semperton\Query\Partial\Expression;
+use Semperton\Query\ExpressionInterface;
 use Semperton\Query\Partial\Table;
 use Semperton\Query\QueryFactory;
+use Semperton\Query\Trait\ExpressionTrait;
 
-final class InsertQuery extends Expression
+final class InsertQuery implements ExpressionInterface
 {
+	use ExpressionTrait;
+
 	protected $values = [];
 
 	protected $tables;
@@ -18,8 +21,7 @@ final class InsertQuery extends Expression
 
 	public function __construct(QueryFactory $factory)
 	{
-		parent::__construct($factory, 'insert');
-
+		$this->factory = $factory;
 		$this->tables = new Table($factory);
 	}
 
@@ -48,8 +50,7 @@ final class InsertQuery extends Expression
 
 	public function reset(): self
 	{
-		parent::reset();
-
+		$this->params = [];
 		$this->ignore = false;
 		$this->values = [];
 		$this->tables->reset();
@@ -75,7 +76,7 @@ final class InsertQuery extends Expression
 
 		foreach ($this->values as $col => $value) {
 
-			if ($value instanceof Expression) {
+			if ($value instanceof ExpressionInterface) {
 				$values[] = $value->compile($params);
 			} else {
 				$param = $this->factory->newParameter();
@@ -87,7 +88,7 @@ final class InsertQuery extends Expression
 		$sql[] = 'values';
 		$sql[] = '(' . implode(', ', $values) . ')';
 
-		// add user params
+		// merge user params
 		$params = array_merge($params, $this->params);
 
 		return implode(' ', $sql);

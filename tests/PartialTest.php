@@ -12,7 +12,7 @@ final class PartialTest extends TestCase
 		$factory = new QueryFactory();
 		$prepare = 'select :firstname, :lastname';
 
-		$expr = $factory->expr($prepare)->bind(':firstname', 'John')->bind('lastname', 'Doe');
+		$expr = $factory->raw($prepare)->bind(':firstname', 'John')->bind('lastname', 'Doe');
 		$expected = "select 'John', 'Doe'";
 		$this->assertEquals($expected, $expr->debug());
 

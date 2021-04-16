@@ -4,17 +4,19 @@ declare(strict_types=1);
 
 namespace Semperton\Query\Type;
 
+use Semperton\Query\ExpressionInterface;
 use Semperton\Query\Partial\Filter;
 use Semperton\Query\Partial\Order;
 use Semperton\Query\Partial\Table;
 use Semperton\Query\QueryFactory;
-use Semperton\Query\Partial\Expression;
+use Semperton\Query\Trait\ExpressionTrait;
 use Semperton\Query\Trait\LimitTrait;
 use Semperton\Query\Trait\OrderByTrait;
 use Semperton\Query\Trait\WhereTrait;
 
-final class DeleteQuery extends Expression
+final class DeleteQuery implements ExpressionInterface
 {
+	use ExpressionTrait;
 	use WhereTrait;
 	use OrderByTrait;
 	use LimitTrait;
@@ -23,8 +25,7 @@ final class DeleteQuery extends Expression
 
 	public function __construct(QueryFactory $factory)
 	{
-		parent::__construct($factory, 'delete');
-
+		$this->factory = $factory;
 		$this->tables = new Table($factory);
 		$this->where = new Filter($factory);
 		$this->orderBy = new Order($factory);
@@ -43,8 +44,7 @@ final class DeleteQuery extends Expression
 
 	public function reset(): self
 	{
-		parent::reset();
-
+		$this->params = [];
 		$this->limit = 0;
 		$this->tables->reset();
 		$this->where->reset();
@@ -82,7 +82,7 @@ final class DeleteQuery extends Expression
 			$sql[] = 'limit ' . $param;
 		}
 
-		// add user params
+		// merge user params
 		$params = array_merge($params, $this->params);
 
 		return implode(' ', $sql);
