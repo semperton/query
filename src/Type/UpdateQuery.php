@@ -21,8 +21,6 @@ final class UpdateQuery extends Expression
 
 	protected $values = [];
 
-	protected $limit = 0;
-
 	protected $tables;
 
 	public function __construct(QueryFactory $factory)
@@ -54,6 +52,19 @@ final class UpdateQuery extends Expression
 	public function isValid(): bool
 	{
 		return !empty($this->values) && $this->tables->isValid();
+	}
+
+	public function reset(): self
+	{
+		parent::reset();
+
+		$this->limit = 0;
+		$this->values = [];
+		$this->tables->reset();
+		$this->orderBy->reset();
+		$this->where->reset();
+
+		return $this;
 	}
 
 	public function compile(?array &$params = null): string
@@ -96,6 +107,9 @@ final class UpdateQuery extends Expression
 			$params[$param] = $this->limit;
 			$sql[] = 'limit ' . $param;
 		}
+
+		// add user params
+		$params = array_merge($params, $this->params);
 
 		return implode(' ', $sql);
 	}

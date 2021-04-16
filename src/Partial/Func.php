@@ -28,6 +28,11 @@ final class Func implements ExpressionInterface
 		return !empty($this->name);
 	}
 
+	public function reset(): self
+	{
+		return $this;
+	}
+
 	public function compile(?array &$params = null): string
 	{
 		$params = $params ?? [];

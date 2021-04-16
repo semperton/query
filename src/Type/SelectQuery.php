@@ -156,6 +156,25 @@ final class SelectQuery extends Expression
 		return $this->tables->isValid();
 	}
 
+	public function reset(): self
+	{
+		parent::reset();
+
+		$this->distinct = false;
+		$this->limit = 0;
+		$this->offset = 0;
+		$this->fields->reset();
+		$this->tables->reset();
+		$this->orderBy->reset();
+		$this->groupBy = [];
+		$this->where->reset();
+		$this->having->reset();
+		$this->joins = [];
+		$this->lastJoin = null;
+
+		return $this;
+	}
+
 	public function compile(?array &$params = null): string
 	{
 		$params = $params ?? [];
@@ -215,6 +234,9 @@ final class SelectQuery extends Expression
 				$sql[] = 'offset ' . $param;
 			}
 		}
+
+		// add user params
+		$params = array_merge($params, $this->params);
 
 		return implode(' ', $sql);
 	}

@@ -71,6 +71,12 @@ class Expression implements ExpressionInterface
 		return !empty($this->value);
 	}
 
+	public function reset(): self
+	{
+		$this->params = [];
+		return $this;
+	}
+
 	public function compile(?array &$params = null): string
 	{
 		$params = $params ?? [];

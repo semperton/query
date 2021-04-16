@@ -36,6 +36,12 @@ final class Filter implements ExpressionInterface
 		return !empty($this->conditions);
 	}
 
+	public function reset(): self
+	{
+		$this->conditions = [];
+		return $this;
+	}
+
 	public function compile(?array &$params = null): string
 	{
 		$params = $params ?? [];

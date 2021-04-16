@@ -30,6 +30,12 @@ final class Table implements ExpressionInterface
 		return !empty($this->tables);
 	}
 
+	public function reset(): self
+	{
+		$this->tables = [];
+		return $this;
+	}
+
 	public function compile(?array &$params = null): string
 	{
 		$params = $params ?? [];

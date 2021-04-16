@@ -38,6 +38,16 @@ final class DropQuery extends Expression
 		return $this->tables->isValid();
 	}
 
+	public function reset(): self
+	{
+		parent::reset();
+
+		$this->exists = false;
+		$this->tables->reset();
+
+		return $this;
+	}
+
 	public function compile(?array &$params = null): string
 	{
 		$params = $params ?? [];
@@ -51,6 +61,9 @@ final class DropQuery extends Expression
 		if ($this->tables->isValid()) {
 			$sql[] = $this->tables->compile($params);
 		}
+
+		// add user params
+		$params = array_merge($params, $this->params);
 
 		return implode(' ', $sql);
 	}

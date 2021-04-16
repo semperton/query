@@ -36,6 +36,14 @@ final class QueryTest extends TestCase
 
 		$expected = "select firstname, name username, json_extract(data, '$.stars') from user where id > 3";
 		$this->assertEquals($expected, $q->debug());
+
+		$q->reset();
+
+		$exp = $q->expr(':num');
+		$q->fields(['id', 'username', 'stars' => $exp])->from('user')->where('id')->bind('num', 55);
+
+		$expected = "select id, username, 55 stars from user where id";
+		$this->assertEquals($expected, $q->debug());
 	}
 
 	// public function testUpdate(): void

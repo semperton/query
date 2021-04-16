@@ -36,6 +36,12 @@ final class Order implements ExpressionInterface
 		return !empty($this->orders);
 	}
 
+	public function reset(): self
+	{
+		$this->orders = [];
+		return $this;
+	}
+
 	public function compile(?array &$params = null): string
 	{
 		$params = $params ?? [];

@@ -46,6 +46,17 @@ final class InsertQuery extends Expression
 		return !empty($this->values);
 	}
 
+	public function reset(): self
+	{
+		parent::reset();
+
+		$this->ignore = false;
+		$this->values = [];
+		$this->tables->reset();
+
+		return $this;
+	}
+
 	public function compile(?array &$params = null): string
 	{
 		$params = $params ?? [];
@@ -75,6 +86,9 @@ final class InsertQuery extends Expression
 
 		$sql[] = 'values';
 		$sql[] = '(' . implode(', ', $values) . ')';
+
+		// add user params
+		$params = array_merge($params, $this->params);
 
 		return implode(' ', $sql);
 	}

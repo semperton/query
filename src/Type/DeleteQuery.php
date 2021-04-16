@@ -41,6 +41,18 @@ final class DeleteQuery extends Expression
 		return $this->tables->isValid();
 	}
 
+	public function reset(): self
+	{
+		parent::reset();
+
+		$this->limit = 0;
+		$this->tables->reset();
+		$this->where->reset();
+		$this->orderBy->reset();
+
+		return $this;
+	}
+
 	public function compile(?array &$params = null): string
 	{
 		$params = $params ?? [];
@@ -69,6 +81,9 @@ final class DeleteQuery extends Expression
 			$params[$param] = $this->limit;
 			$sql[] = 'limit ' . $param;
 		}
+
+		// add user params
+		$params = array_merge($params, $this->params);
 
 		return implode(' ', $sql);
 	}

@@ -52,9 +52,21 @@ final class Join implements ExpressionInterface
 		return $this;
 	}
 
+	public function getType(): string
+	{
+		return $this->type;
+	}
+
 	public function isValid(): bool
 	{
 		return $this->tables->isValid() && $this->filter->isValid();
+	}
+
+	public function reset(): self
+	{
+		$this->tables->reset();
+		$this->filter->reset();
+		return $this;
 	}
 
 	public function compile(?array &$params = null): string

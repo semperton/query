@@ -30,6 +30,12 @@ final class Field implements ExpressionInterface
 		return !empty($this->fields);
 	}
 
+	public function reset(): self
+	{
+		$this->fields = [];
+		return $this;
+	}
+
 	public function compile(?array &$params = null): string
 	{
 		$params = $params ?? [];
