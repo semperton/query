@@ -10,10 +10,9 @@ final class QueryTest extends TestCase
 	public function testInsert(): void
 	{
 		$factory = new QueryFactory();
-		$q = $factory->insert(['name' => 'Shirt', 'price' => 2000])->into('product');
+		$q = $factory->insert('product')->values(['name' => 'Shirt', 'price' => 2000]);
 
-		$q2 = $factory->insert();
-		$q2->into('product')->values(['name' => 'Shirt', 'price' => 2000]);
+		$q2 = $factory->insert('product')->values(['name' => 'Shirt', 'price' => 2000]);
 
 		$this->assertEquals($q->debug(), $q2->debug());
 
@@ -24,14 +23,13 @@ final class QueryTest extends TestCase
 	public function testSelect(): void
 	{
 		$factory = new QueryFactory();
-		$q = $factory->select();
+		$q = $factory->select('user');
 
 		$q->fields([
 			'firstname',
 			'username' => 'name',
 			$q->func('json_extract', $q->ident('data'), '$.stars')
 		])
-			->from('user')
 			->where('id', '>', 3);
 
 		$expected = "select firstname, name username, json_extract(data, '$.stars') from user where id > 3";
