@@ -35,36 +35,29 @@ class QueryFactory
 		$this->escapeStr = $escapeStr;
 	}
 
-	public function insert(array $values = []): InsertQuery
+	public function insert(string $table): InsertQuery
 	{
-		$query = new InsertQuery($this);
-		return $query->values($values);
+		return (new InsertQuery($this))->into($table);
 	}
 
-	public function select(array $fields = []): SelectQuery
+	public function select(string $table, string $alias = ''): SelectQuery
 	{
-		$query = new SelectQuery($this);
-		return $query->fields($fields);
+		return (new SelectQuery($this))->from($table, $alias);
 	}
 
-	public function update(array $values = []): UpdateQuery
+	public function update(string $table, string $alias = ''): UpdateQuery
 	{
-		$query = new UpdateQuery($this);
-		return $query->set($values);
+		return (new UpdateQuery($this))->table($table, $alias);
 	}
 
-	public function delete(): DeleteQuery
+	public function delete(string $table, string $alias = ''): DeleteQuery
 	{
-		return new DeleteQuery($this);
+		return (new DeleteQuery($this))->from($table, $alias);
 	}
 
-	public function drop(?string $table = null): DropQuery
+	public function drop(string $table): DropQuery
 	{
-		$query = new DropQuery($this);
-		if ($table !== null) {
-			$query->table($table);
-		}
-		return $query;
+		return (new DropQuery($this))->table($table);
 	}
 
 	public function raw(string $value): Raw
