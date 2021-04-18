@@ -29,6 +29,9 @@ final class Join implements ExpressionInterface
 		$this->type = $type;
 	}
 
+	/**
+	 * @param string|callable|ExpressionInterface
+	 */
 	public function table($table, string $alias = ''): self
 	{
 		$this->tables->add($table, $alias);
@@ -40,6 +43,10 @@ final class Join implements ExpressionInterface
 		return $this->andOn($col, $op, $val);
 	}
 
+	/**
+	 * @param string|callable|ExpressionInterface $col
+	 * @param null|scalar|array|ExpressionInterface $val
+	 */
 	public function andOn($col, ?string $op = null, $val = null): self
 	{
 		if (is_string($val)) {
@@ -50,6 +57,10 @@ final class Join implements ExpressionInterface
 		return $this;
 	}
 
+	/**
+	 * @param string|callable|ExpressionInterface $col
+	 * @param null|scalar|array|ExpressionInterface $val
+	 */
 	public function orOn($col, ?string $op = null, $val = null): self
 	{
 		if (is_string($val)) {

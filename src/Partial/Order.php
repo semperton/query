@@ -19,12 +19,18 @@ final class Order implements ExpressionInterface
 		$this->factory = $factory;
 	}
 
+	/**
+	 * @param string|ExpressionInterface $field
+	 */
 	public function asc($field): self
 	{
 		$this->orders[] = [$field, 'asc'];
 		return $this;
 	}
 
+	/**
+	 * @param string|ExpressionInterface $field
+	 */
 	public function desc($field): self
 	{
 		$this->orders[] = [$field, 'desc'];
@@ -54,8 +60,7 @@ final class Order implements ExpressionInterface
 
 			if (is_string($field)) {
 				$field = $this->factory->quoteIdentifier($field);
-			}
-			if ($field instanceof ExpressionInterface) {
+			} else if ($field instanceof ExpressionInterface) {
 				$field = $field->compile($params);
 			} else {
 				throw new RuntimeException('Invalid order argument');

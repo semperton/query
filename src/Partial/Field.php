@@ -19,6 +19,9 @@ final class Field implements ExpressionInterface
 		$this->factory = $factory;
 	}
 
+	/**
+	 * @param string|ExpressionInterface $field
+	 */
 	public function add($field, string $alias = ''): self
 	{
 		$this->fields[] = [$field, $alias];

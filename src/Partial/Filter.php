@@ -19,12 +19,20 @@ final class Filter implements ExpressionInterface
 		$this->factory = $factory;
 	}
 
+	/**
+	 * @param string|callable|ExpressionInterface $col
+	 * @param null|scalar|array|ExpressionInterface $val
+	 */
 	public function and($col, ?string $op = null, $val = null): self
 	{
 		$this->conditions[] = ['and', $col, $op, $val];
 		return $this;
 	}
 
+	/**
+	 * @param string|callable|ExpressionInterface $col
+	 * @param null|scalar|array|ExpressionInterface $val
+	 */
 	public function or($col, ?string $op = null, $val = null): self
 	{
 		$this->conditions[] = ['or', $col, $op, $val];
@@ -76,17 +84,15 @@ final class Filter implements ExpressionInterface
 					$sql[] = $bool;
 				}
 
-				if(is_string($column)){
+				if (is_string($column)) {
 					$sql[] = $this->factory->quoteIdentifier($column);
-				}
-				else if($value instanceof ExpressionInterface){
+				} else if ($value instanceof ExpressionInterface) {
 					$sql[] = $column->compile($params);
-				}
-				else{
+				} else {
 					throw new RuntimeException('Invalid filter argument');
 				}
 
-				if(empty($operator)){
+				if (empty($operator)) {
 					continue;
 				}
 

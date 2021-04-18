@@ -25,6 +25,9 @@ final class InsertQuery implements ExpressionInterface
 		$this->tables = new Table($factory);
 	}
 
+	/**
+	 * @param string|callable|ExpressionInterface $table
+	 */
 	public function into($table): self
 	{
 		$this->tables->add($table);

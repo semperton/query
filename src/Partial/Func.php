@@ -16,6 +16,9 @@ final class Func implements ExpressionInterface
 
 	protected $factory;
 
+	/**
+	 * @param scalar|ExpressionInterface $args
+	 */
 	public function __construct(QueryFactory $factory, string $name, ...$args)
 	{
 		$this->factory = $factory;

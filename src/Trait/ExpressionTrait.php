@@ -27,6 +27,9 @@ trait ExpressionTrait
 		return $this->factory->ident($value);
 	}
 
+	/**
+	 * @param scalar|ExpressionInterface $args
+	 */
 	public function func(string $name, ...$args): Func
 	{
 		return $this->factory->func($name, ...$args);
@@ -52,6 +55,7 @@ trait ExpressionTrait
 	}
 
 	/**
+	 * @param scalar $value
 	 * @return static
 	 */
 	public function bind(string $param, $value): self

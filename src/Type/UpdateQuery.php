@@ -33,12 +33,19 @@ final class UpdateQuery implements ExpressionInterface
 		$this->where = new Filter($factory);
 	}
 
+	/**
+	 * @param string|callable|ExpressionInterface $table
+	 */
 	public function table($table, string $alias = ''): self
 	{
 		$this->tables->add($table, $alias);
 		return $this;
 	}
 
+	/**
+	 * @param string|array $field
+	 * @param null|scalar|ExpressionInterface $value
+	 */
 	public function set($field, $value = null): self
 	{
 		if (!is_array($field)) {

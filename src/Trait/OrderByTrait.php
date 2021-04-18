@@ -12,6 +12,7 @@ trait OrderByTrait
 	protected $orderBy;
 
 	/**
+	 * @param string|ExpressionInterface $field
 	 * @return static
 	 */
 	public function orderAsc($field): self
@@ -21,6 +22,7 @@ trait OrderByTrait
 	}
 
 	/**
+	 * @param string|ExpressionInterface $field
 	 * @return static
 	 */
 	public function orderDesc($field): self

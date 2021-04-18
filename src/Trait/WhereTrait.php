@@ -12,28 +12,34 @@ trait WhereTrait
 	protected $where;
 
 	/**
+	 * @param string|callable|ExpressionInterface $col
+	 * @param null|scalar|array|ExpressionInterface $val 
 	 * @return static
 	 */
-	public function where($col, ?string $op = null, $value = null): self
+	public function where($col, ?string $op = null, $val = null): self
 	{
-		return $this->andWhere($col, $op, $value);
+		return $this->andWhere($col, $op, $val);
 	}
 
 	/**
+	 * @param string|callable|ExpressionInterface $col
+	 * @param null|scalar|array|ExpressionInterface $val
 	 * @return static
 	 */
-	public function andWhere($col, ?string $op = null, $value = null): self
+	public function andWhere($col, ?string $op = null, $val = null): self
 	{
-		$this->where->and($col, $op, $value);
+		$this->where->and($col, $op, $val);
 		return $this;
 	}
 
 	/**
+	 * @param string|callable|ExpressionInterface $col
+	 * @param null|scalar|array|ExpressionInterface $val
 	 * @return static
 	 */
-	public function orWhere($col, ?string $op = null, $value = null): self
+	public function orWhere($col, ?string $op = null, $val = null): self
 	{
-		$this->where->or($col, $op, $value);
+		$this->where->or($col, $op, $val);
 		return $this;
 	}
 }

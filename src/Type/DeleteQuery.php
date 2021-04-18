@@ -31,6 +31,9 @@ final class DeleteQuery implements ExpressionInterface
 		$this->orderBy = new Order($factory);
 	}
 
+	/**
+	 * @param string|callable|ExpressionInterface $table
+	 */
 	public function from($table, string $alias = ''): self
 	{
 		$this->tables->add($table, $alias);

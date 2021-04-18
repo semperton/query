@@ -20,6 +20,9 @@ final class Table implements ExpressionInterface
 		$this->factory = $factory;
 	}
 
+	/**
+	 * @param string|callable|ExpressionInterface $table
+	 */
 	public function add($table, string $alias = ''): self
 	{
 		$this->tables[] = [$table, $alias];

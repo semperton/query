@@ -50,6 +50,9 @@ final class SelectQuery implements ExpressionInterface
 		$this->orderBy = new Order($factory);
 	}
 
+	/**
+	 * @param string|callable|ExpressionInterface $table
+	 */
 	public function from($table, string $alias = ''): self
 	{
 		$this->tables->add($table, $alias);
@@ -70,29 +73,44 @@ final class SelectQuery implements ExpressionInterface
 		return $this;
 	}
 
+	/**
+	 * @param string|callable|ExpressionInterface $table
+	 */
 	public function join($table, string $alias = ''): self
 	{
 		return $this->innerJoin($table, $alias);
 	}
 
+	/**
+	 * @param string|callable|ExpressionInterface $table
+	 */
 	public function innerJoin($table, string $alias = ''): self
 	{
 		$this->addJoin($table, $alias, Join::TYPE_INNER);
 		return $this;
 	}
 
+	/**
+	 * @param string|callable|ExpressionInterface $table
+	 */
 	public function leftJoin($table, string $alias = ''): self
 	{
 		$this->addJoin($table, $alias, Join::TYPE_LEFT);
 		return $this;
 	}
 
+	/**
+	 * @param string|callable|ExpressionInterface $table
+	 */
 	public function rightJoin($table, string $alias = ''): self
 	{
 		$this->addJoin($table, $alias, Join::TYPET_RIGHT);
 		return $this;
 	}
 
+	/**
+	 * @param string|callable|ExpressionInterface $table
+	 */
 	protected function addJoin($table, string $alias, string $type): void
 	{
 		$join = new Join($this->factory, $type);
@@ -102,23 +120,35 @@ final class SelectQuery implements ExpressionInterface
 		$this->lastJoin = $join;
 	}
 
-	public function on($col, ?string $op = null, $value = null): self
+	/**
+	 * @param string|callable|ExpressionInterface $col
+	 * @param null|scalar|array|ExpressionInterface $val
+	 */
+	public function on($col, ?string $op = null, $val = null): self
 	{
-		return $this->andOn($col, $op, $value);
+		return $this->andOn($col, $op, $val);
 	}
 
-	public function andOn($col, ?string $op = null, $value = null): self
+	/**
+	 * @param string|callable|ExpressionInterface $col
+	 * @param null|scalar|array|ExpressionInterface $val
+	 */
+	public function andOn($col, ?string $op = null, $val = null): self
 	{
 		if ($this->lastJoin !== null) {
-			$this->lastJoin->andOn($col, $op, $value);
+			$this->lastJoin->andOn($col, $op, $val);
 		}
 		return $this;
 	}
 
-	public function orOn($col, ?string $op = null, $value = null): self
+	/**
+	 * @param string|callable|ExpressionInterface $col
+	 * @param null|scalar|array|ExpressionInterface $val
+	 */
+	public function orOn($col, ?string $op = null, $val = null): self
 	{
 		if ($this->lastJoin !== null) {
-			$this->lastJoin->orOn($col, $op, $value);
+			$this->lastJoin->orOn($col, $op, $val);
 		}
 		return $this;
 	}
@@ -129,20 +159,32 @@ final class SelectQuery implements ExpressionInterface
 		return $this;
 	}
 
-	public function having($col, ?string $op = null, $value = null): self
+	/**
+	 * @param string|callable|ExpressionInterface $col
+	 * @param null|scalar|array|ExpressionInterface $val
+	 */
+	public function having($col, ?string $op = null, $val = null): self
 	{
-		return $this->andHaving($col, $op, $value);
+		return $this->andHaving($col, $op, $val);
 	}
 
-	public function andHaving($col, ?string $op = null, $value = null): self
+	/**
+	 * @param string|callable|ExpressionInterface $col
+	 * @param null|scalar|array|ExpressionInterface $val
+	 */
+	public function andHaving($col, ?string $op = null, $val = null): self
 	{
-		$this->having->and($col, $op, $value);
+		$this->having->and($col, $op, $val);
 		return $this;
 	}
 
-	public function orHaving($col, ?string $op = null, $value = null): self
+	/**
+	 * @param string|callable|ExpressionInterface $col
+	 * @param null|scalar|array|ExpressionInterface $val
+	 */
+	public function orHaving($col, ?string $op = null, $val = null): self
 	{
-		$this->having->or($col, $op, $value);
+		$this->having->or($col, $op, $val);
 		return $this;
 	}
 
