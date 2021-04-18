@@ -37,7 +37,7 @@ final class SelectQuery implements ExpressionInterface
 
 	protected $joins = [];
 
-	/** @var Join */
+	/** @var null|Join */
 	protected $lastJoin;
 
 	public function __construct(QueryFactory $factory)
@@ -277,7 +277,9 @@ final class SelectQuery implements ExpressionInterface
 			}
 		}
 
-		// merge user params
+		/**
+		 * @psalm-suppress PossiblyNullArgument
+		 */
 		$params = array_merge($params, $this->params);
 
 		return implode(' ', $sql);

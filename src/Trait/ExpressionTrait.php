@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Semperton\Query\Trait;
 
 use InvalidArgumentException;
+use Semperton\Query\ExpressionInterface;
 use Semperton\Query\Partial\Func;
 use Semperton\Query\Partial\Identifier;
 use Semperton\Query\Partial\Raw;
@@ -35,6 +36,9 @@ trait ExpressionTrait
 		return $this->factory->func($name, ...$args);
 	}
 
+	/**
+	 * @psalm-suppress all
+	 */
 	public function debug(): string
 	{
 		$params = [];

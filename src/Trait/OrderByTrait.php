@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Semperton\Query\Trait;
 
+use Semperton\Query\ExpressionInterface;
 use Semperton\Query\Partial\Order;
 
 trait OrderByTrait

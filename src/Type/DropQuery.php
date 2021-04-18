@@ -63,7 +63,9 @@ final class DropQuery implements ExpressionInterface
 			$sql[] = $this->tables->compile($params);
 		}
 
-		// merge user params
+		/**
+		 * @psalm-suppress PossiblyNullArgument
+		 */
 		$params = array_merge($params, $this->params);
 
 		return implode(' ', $sql);

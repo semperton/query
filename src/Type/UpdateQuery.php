@@ -86,6 +86,7 @@ final class UpdateQuery implements ExpressionInterface
 
 		$sql[] = 'set';
 
+		$assign = [];
 		foreach ($this->values as $field => $value) {
 
 			if ($value instanceof ExpressionInterface) {
@@ -115,7 +116,9 @@ final class UpdateQuery implements ExpressionInterface
 			$sql[] = 'limit ' . $param;
 		}
 
-		// merge user params
+		/**
+		 * @psalm-suppress PossiblyNullArgument
+		 */
 		$params = array_merge($params, $this->params);
 
 		return implode(' ', $sql);

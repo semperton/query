@@ -30,7 +30,7 @@ final class Join implements ExpressionInterface
 	}
 
 	/**
-	 * @param string|callable|ExpressionInterface
+	 * @param string|callable|ExpressionInterface $table
 	 */
 	public function table($table, string $alias = ''): self
 	{
@@ -38,6 +38,10 @@ final class Join implements ExpressionInterface
 		return $this;
 	}
 
+	/**
+	 * @param string|callable|ExpressionInterface $col
+	 * @param null|scalar|array|ExpressionInterface $val
+	 */
 	public function on($col, ?string $op = null, $val = null): self
 	{
 		return $this->andOn($col, $op, $val);

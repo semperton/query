@@ -85,7 +85,9 @@ final class DeleteQuery implements ExpressionInterface
 			$sql[] = 'limit ' . $param;
 		}
 
-		// merge user params
+		/**
+		 * @psalm-suppress PossiblyNullArgument
+		 */
 		$params = array_merge($params, $this->params);
 
 		return implode(' ', $sql);
