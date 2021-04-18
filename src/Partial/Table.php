@@ -6,6 +6,7 @@ namespace Semperton\Query\Partial;
 
 use Semperton\Query\ExpressionInterface;
 use Semperton\Query\QueryFactory;
+use Semperton\Query\Type\SelectQuery;
 use RuntimeException;
 
 final class Table implements ExpressionInterface
@@ -60,7 +61,7 @@ final class Table implements ExpressionInterface
 					throw new RuntimeException('Alias is required for sub select');
 				}
 
-				$subSelect = $this->factory->select();
+				$subSelect = new SelectQuery($this->factory);
 
 				$table($subSelect);
 
