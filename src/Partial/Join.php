@@ -42,12 +42,20 @@ final class Join implements ExpressionInterface
 
 	public function andOn($col, ?string $op = null, $val = null): self
 	{
+		if (is_string($val)) {
+			$val = new Identifier($this->factory, $val);
+		}
+
 		$this->filter->and($col, $op, $val);
 		return $this;
 	}
 
 	public function orOn($col, ?string $op = null, $val = null): self
 	{
+		if (is_string($val)) {
+			$val = new Identifier($this->factory, $val);
+		}
+
 		$this->filter->or($col, $op, $val);
 		return $this;
 	}

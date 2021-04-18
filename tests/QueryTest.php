@@ -51,4 +51,27 @@ final class QueryTest extends TestCase
 	// public function testDelete(): void
 	// {
 	// }
+
+	public function testJoin(): void
+	{
+		$factory = new QueryFactory();
+		$q = $factory->select('user', 'u');
+		$q->join('billing', 'b')
+			->on('u.id', '=', 'b.user_id')
+			->where('u.id', '>', 5);
+
+		$expected = 'select * from user u inner join billing b on u.id = b.user_id where u.id > 5';
+		$this->assertEquals($expected, $q->debug());
+
+		$q->reset()
+			->from('user', 'u')
+			->fields(['id'])
+			->rightJoin('billing', 'b')
+			->on('u.id', '=', 'b.user_id')
+			->andOn('u.name', 'like', 'b.user_name')
+			->where('id');
+
+		$expected = 'select id from user u right join billing b on u.id = b.user_id and u.name like b.user_name where id';
+		$this->assertEquals($expected, $q->debug());
+	}
 }
