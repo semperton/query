@@ -11,8 +11,10 @@ use RuntimeException;
 
 final class Table implements ExpressionInterface
 {
+	/** @var list<array{string|callable|ExpressionInterface, string}> */
 	protected $tables = [];
 
+	/** @var QueryFactory */
 	protected $factory;
 
 	public function __construct(QueryFactory $factory)
@@ -50,16 +52,14 @@ final class Table implements ExpressionInterface
 			$table = $entry[0];
 			$alias = $entry[1];
 
-			if (is_string($table)) {
-
-				$table = $this->factory->quoteIdentifier($table);
-				$sql[] = empty($alias) ? $table : $table . ' ' . $this->factory->quoteIdentifier($alias);
-			} else if ($table instanceof ExpressionInterface) {
+			if ($table instanceof ExpressionInterface) {
 				if ($table->isValid()) {
 					$sql[] = '(' . $table->compile($params) . ')' . (empty($alias) ? '' : ' ' . $this->factory->quoteIdentifier($alias));
 				}
-			} else if (is_callable($table)) {
-
+			} else if (is_string($table)) {
+				$table = $this->factory->quoteIdentifier($table);
+				$sql[] = empty($alias) ? $table : $table . ' ' . $this->factory->quoteIdentifier($alias);
+			} else {
 				if (empty($alias)) {
 					throw new RuntimeException('Alias is required for sub select');
 				}
@@ -71,8 +71,6 @@ final class Table implements ExpressionInterface
 				if ($subSelect->isValid()) {
 					$sql[] = '(' . $subSelect->compile($params) . ') ' . $this->factory->quoteIdentifier($alias);
 				}
-			} else {
-				throw new RuntimeException('Invalid table argument');
 			}
 		}
 

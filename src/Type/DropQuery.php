@@ -13,8 +13,10 @@ final class DropQuery implements ExpressionInterface
 {
 	use ExpressionTrait;
 
+	/** @var bool */
 	protected $exists = false;
 
+	/** @var Table */
 	protected $tables;
 
 	public function __construct(QueryFactory $factory)

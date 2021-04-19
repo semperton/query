@@ -12,6 +12,7 @@ final class Raw implements ExpressionInterface
 {
 	use ExpressionTrait;
 
+	/** @var string */
 	protected $value;
 
 	public function __construct(QueryFactory $factory, string $value)

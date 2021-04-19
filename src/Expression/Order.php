@@ -4,14 +4,15 @@ declare(strict_types=1);
 
 namespace Semperton\Query\Expression;
 
-use RuntimeException;
 use Semperton\Query\ExpressionInterface;
 use Semperton\Query\QueryFactory;
 
 final class Order implements ExpressionInterface
 {
+	/** @var list<array{string|ExpressionInterface, string}> */
 	protected $orders = [];
 
+	/** @var QueryFactory */
 	protected $factory;
 
 	public function __construct(QueryFactory $factory)
@@ -58,12 +59,10 @@ final class Order implements ExpressionInterface
 			$field = $order[0];
 			$dir = $order[1];
 
-			if (is_string($field)) {
-				$field = $this->factory->quoteIdentifier($field);
-			} else if ($field instanceof ExpressionInterface) {
+			if ($field instanceof ExpressionInterface) {
 				$field = $field->compile($params);
 			} else {
-				throw new RuntimeException('Invalid order argument');
+				$field = $this->factory->quoteIdentifier($field);
 			}
 
 			$sql[] = "$field $dir";

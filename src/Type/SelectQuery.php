@@ -23,18 +23,25 @@ final class SelectQuery implements ExpressionInterface
 	use OrderByTrait;
 	use LimitTrait;
 
+	/** @var bool */
 	protected $distinct = false;
 
+	/** @var Field */
 	protected $fields;
 
+	/** @var Table */
 	protected $tables;
 
+	/** @var int */
 	protected $offset = 0;
 
+	/** @var string[] */
 	protected $groupBy = [];
 
+	/** @var Filter */
 	protected $having;
 
+	/** @var Join[] */
 	protected $joins = [];
 
 	/** @var null|Join */

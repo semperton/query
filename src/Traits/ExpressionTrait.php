@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Semperton\Query\Traits;
 
-use InvalidArgumentException;
 use Semperton\Query\ExpressionInterface;
 use Semperton\Query\Expression\Func;
 use Semperton\Query\Expression\Identifier;
@@ -13,6 +12,7 @@ use Semperton\Query\QueryFactory;
 
 trait ExpressionTrait
 {
+	/** @var array<string, scalar> */
 	protected $params = [];
 
 	/** @var QueryFactory */
@@ -64,10 +64,6 @@ trait ExpressionTrait
 	 */
 	public function bind(string $param, $value): self
 	{
-		if (!is_scalar($value)) {
-			throw new InvalidArgumentException('Cannot bind non scalar value');
-		}
-
 		$param = ':' . ltrim($param, ':');
 		$this->params[$param] = $value;
 		return $this;

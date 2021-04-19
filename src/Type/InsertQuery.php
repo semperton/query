@@ -13,10 +13,13 @@ final class InsertQuery implements ExpressionInterface
 {
 	use ExpressionTrait;
 
+	/** @var array */
 	protected $values = [];
 
+	/** @var Table */
 	protected $tables;
 
+	/** @var bool */
 	protected $ignore = false;
 
 	public function __construct(QueryFactory $factory)
@@ -64,7 +67,7 @@ final class InsertQuery implements ExpressionInterface
 	public function compile(?array &$params = null): string
 	{
 		$params = $params ?? [];
-		
+
 		$sql = ['insert'];
 
 		if ($this->ignore) {

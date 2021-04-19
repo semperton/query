@@ -4,16 +4,18 @@ declare(strict_types=1);
 
 namespace Semperton\Query\Expression;
 
-use RuntimeException;
 use Semperton\Query\QueryFactory;
 use Semperton\Query\ExpressionInterface;
 
 final class Func implements ExpressionInterface
 {
+	/** @var string */
 	protected $name;
 
+	/** @var array<scalar|ExpressionInterface> */
 	protected $args;
 
+	/** @var QueryFactory */
 	protected $factory;
 
 	/**
@@ -42,14 +44,13 @@ final class Func implements ExpressionInterface
 		$sql = [];
 
 		foreach ($this->args as $arg) {
+
 			if ($arg instanceof ExpressionInterface) {
 				$sql[] = $arg->compile($params);
-			} else if (is_scalar($arg)) {
+			} else {
 				$param = $this->factory->newParameter();
 				$params[$param] = $arg;
 				$sql[] = $param;
-			} else {
-				throw new RuntimeException('Type < ' . gettype($arg) . ' > is not a valid function argument');
 			}
 		}
 

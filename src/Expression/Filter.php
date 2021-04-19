@@ -10,8 +10,15 @@ use Semperton\Query\QueryFactory;
 
 final class Filter implements ExpressionInterface
 {
+	/** @var list<array{
+	 * string,
+	 * string|callable|ExpressionInterface,
+	 * null|string,
+	 * null|scalar|array|ExpressionInterface
+	 * }> */
 	protected $conditions = [];
 
+	/** @var QueryFactory */
 	protected $factory;
 
 	public function __construct(QueryFactory $factory)

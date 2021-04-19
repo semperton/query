@@ -21,8 +21,10 @@ final class UpdateQuery implements ExpressionInterface
 	use WhereTrait;
 	use LimitTrait;
 
+	/** @var array */
 	protected $values = [];
 
+	/** @var Table */
 	protected $tables;
 
 	public function __construct(QueryFactory $factory)

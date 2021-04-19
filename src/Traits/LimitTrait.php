@@ -6,6 +6,7 @@ namespace Semperton\Query\Traits;
 
 trait LimitTrait
 {
+	/** @var int */
 	protected $limit = 0;
 
 	/**

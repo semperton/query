@@ -13,12 +13,16 @@ final class Join implements ExpressionInterface
 	const TYPE_LEFT = 'left';
 	const TYPET_RIGHT = 'right';
 
+	/** @var string */
 	protected $type;
 
+	/** @var Table */
 	protected $tables;
 
+	/** @var Filter */
 	protected $filter;
 
+	/** @var QueryFactory */
 	protected $factory;
 
 	public function __construct(QueryFactory $factory, string $type = self::TYPE_INNER)

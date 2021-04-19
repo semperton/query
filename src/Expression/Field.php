@@ -4,14 +4,15 @@ declare(strict_types=1);
 
 namespace Semperton\Query\Expression;
 
-use RuntimeException;
 use Semperton\Query\ExpressionInterface;
 use Semperton\Query\QueryFactory;
 
 final class Field implements ExpressionInterface
 {
+	/** @var list<array{string|ExpressionInterface, string}> */
 	protected $fields = [];
 
+	/** @var QueryFactory */
 	protected $factory;
 
 	public function __construct(QueryFactory $factory)
@@ -49,12 +50,10 @@ final class Field implements ExpressionInterface
 			$field = $entry[0];
 			$alias = $entry[1];
 
-			if (is_string($field)) {
-				$field = $this->factory->quoteIdentifier($field);
-			} else if ($field instanceof ExpressionInterface) {
+			if ($field instanceof ExpressionInterface) {
 				$field = $field->compile($params);
 			} else {
-				throw new RuntimeException('Invalid field argument');
+				$field = $this->factory->quoteIdentifier($field);
 			}
 
 			$sql[] = empty($alias) ? $field : $field . ' ' . $this->factory->quoteIdentifier($alias);

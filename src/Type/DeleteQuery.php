@@ -21,6 +21,7 @@ final class DeleteQuery implements ExpressionInterface
 	use OrderByTrait;
 	use LimitTrait;
 
+	/** @var Table */
 	protected $tables;
 
 	public function __construct(QueryFactory $factory)

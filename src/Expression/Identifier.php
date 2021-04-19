@@ -9,8 +9,10 @@ use Semperton\Query\QueryFactory;
 
 final class Identifier implements ExpressionInterface
 {
+	/** @var string */
 	protected $value;
 
+	/** @var QueryFactory */
 	protected $factory;
 
 	public function __construct(QueryFactory $factory, string $value)

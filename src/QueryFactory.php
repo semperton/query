@@ -15,14 +15,19 @@ use Semperton\Query\Type\UpdateQuery;
 
 class QueryFactory
 {
+	/** @var int */
 	protected $parameterCount = 0;
 
+	/** @var string */
 	protected $parameterName = 'p';
 
+	/** @var bool */
 	protected $quoting;
 
+	/** @var string */
 	protected $quoteStr;
 
+	/** @var string */
 	protected $escapeStr;
 
 	public function __construct(
@@ -70,6 +75,9 @@ class QueryFactory
 		return new Identifier($this, $value);
 	}
 
+	/**
+	 * @param scalar|ExpressionInterface $args
+	 */
 	public function func(string $name, ...$args): Func
 	{
 		return new Func($this, $name, ...$args);
