@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Semperton\Query\Trait;
+namespace Semperton\Query\Traits;
 
 trait LimitTrait
 {

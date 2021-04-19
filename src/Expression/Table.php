@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Semperton\Query\Partial;
+namespace Semperton\Query\Expression;
 
 use Semperton\Query\ExpressionInterface;
 use Semperton\Query\QueryFactory;

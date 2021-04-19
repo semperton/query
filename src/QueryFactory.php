@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Semperton\Query;
 
-use Semperton\Query\Partial\Func;
-use Semperton\Query\Partial\Identifier;
-use Semperton\Query\Partial\Raw;
+use Semperton\Query\Expression\Func;
+use Semperton\Query\Expression\Identifier;
+use Semperton\Query\Expression\Raw;
 use Semperton\Query\Type\DeleteQuery;
 use Semperton\Query\Type\DropQuery;
 use Semperton\Query\Type\InsertQuery;

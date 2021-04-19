@@ -5,16 +5,16 @@ declare(strict_types=1);
 namespace Semperton\Query\Type;
 
 use Semperton\Query\ExpressionInterface;
-use Semperton\Query\Partial\Field;
-use Semperton\Query\Partial\Filter;
-use Semperton\Query\Partial\Join;
-use Semperton\Query\Partial\Order;
-use Semperton\Query\Partial\Table;
+use Semperton\Query\Expression\Field;
+use Semperton\Query\Expression\Filter;
+use Semperton\Query\Expression\Join;
+use Semperton\Query\Expression\Order;
+use Semperton\Query\Expression\Table;
 use Semperton\Query\QueryFactory;
-use Semperton\Query\Trait\ExpressionTrait;
-use Semperton\Query\Trait\LimitTrait;
-use Semperton\Query\Trait\OrderByTrait;
-use Semperton\Query\Trait\WhereTrait;
+use Semperton\Query\Traits\ExpressionTrait;
+use Semperton\Query\Traits\LimitTrait;
+use Semperton\Query\Traits\OrderByTrait;
+use Semperton\Query\Traits\WhereTrait;
 
 final class SelectQuery implements ExpressionInterface
 {

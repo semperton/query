@@ -2,17 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Semperton\Query\Partial;
+namespace Semperton\Query\Expression;
 
-use Semperton\Query\QueryFactory;
 use Semperton\Query\ExpressionInterface;
-use Semperton\Query\Trait\ExpressionTrait;
+use Semperton\Query\QueryFactory;
 
-final class Raw implements ExpressionInterface
+final class Identifier implements ExpressionInterface
 {
-	use ExpressionTrait;
-
 	protected $value;
+
+	protected $factory;
 
 	public function __construct(QueryFactory $factory, string $value)
 	{
@@ -27,15 +26,12 @@ final class Raw implements ExpressionInterface
 
 	public function reset(): self
 	{
-		$this->params = [];
 		return $this;
 	}
 
 	public function compile(?array &$params = null): string
 	{
 		$params = $params ?? [];
-		$params = array_merge($params, $this->params);
-
-		return $this->value;
+		return $this->factory->quoteIdentifier($this->value);
 	}
 }

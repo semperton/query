@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Semperton\Query\Trait;
+namespace Semperton\Query\Traits;
 
 use Semperton\Query\ExpressionInterface;
-use Semperton\Query\Partial\Order;
+use Semperton\Query\Expression\Order;
 
 trait OrderByTrait
 {

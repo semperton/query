@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Semperton\Query\Type;
 
 use Semperton\Query\ExpressionInterface;
-use Semperton\Query\Partial\Table;
+use Semperton\Query\Expression\Table;
 use Semperton\Query\QueryFactory;
-use Semperton\Query\Trait\ExpressionTrait;
+use Semperton\Query\Traits\ExpressionTrait;
 
 final class DropQuery implements ExpressionInterface
 {

@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Semperton\Query\Trait;
+namespace Semperton\Query\Traits;
 
 use InvalidArgumentException;
 use Semperton\Query\ExpressionInterface;
-use Semperton\Query\Partial\Func;
-use Semperton\Query\Partial\Identifier;
-use Semperton\Query\Partial\Raw;
+use Semperton\Query\Expression\Func;
+use Semperton\Query\Expression\Identifier;
+use Semperton\Query\Expression\Raw;
 use Semperton\Query\QueryFactory;
 
 trait ExpressionTrait
