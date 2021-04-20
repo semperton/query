@@ -9,7 +9,7 @@ use Semperton\Query\QueryFactory;
 
 final class Field implements ExpressionInterface
 {
-	/** @var list<array{string|ExpressionInterface, string}> */
+	/** @var array<int, array{string|ExpressionInterface, string}> */
 	protected $fields = [];
 
 	/** @var QueryFactory */

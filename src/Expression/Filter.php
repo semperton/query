@@ -10,7 +10,7 @@ use Semperton\Query\QueryFactory;
 
 final class Filter implements ExpressionInterface
 {
-	/** @var list<array{
+	/** @var array<int, array{
 	 * string,
 	 * string|callable|ExpressionInterface,
 	 * null|string,

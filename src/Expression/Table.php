@@ -11,7 +11,7 @@ use RuntimeException;
 
 final class Table implements ExpressionInterface
 {
-	/** @var list<array{string|callable|ExpressionInterface, string}> */
+	/** @var array<int, array{string|callable|ExpressionInterface, string}> */
 	protected $tables = [];
 
 	/** @var QueryFactory */
