@@ -1,6 +1,6 @@
 {
     "name": "semperton/query",
-    "description": "The Semperton Query component.",
+    "description": "A small and standalone SQL query builder.",
     "type": "library",
     "license": "MIT",
     "autoload": {
