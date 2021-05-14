@@ -15,6 +15,7 @@ use Semperton\Query\Traits\ExpressionTrait;
 use Semperton\Query\Traits\LimitTrait;
 use Semperton\Query\Traits\OrderByTrait;
 use Semperton\Query\Traits\WhereTrait;
+use RuntimeException;
 
 final class SelectQuery implements ExpressionInterface
 {
@@ -142,9 +143,10 @@ final class SelectQuery implements ExpressionInterface
 	 */
 	public function andOn($col, ?string $op = null, $val = null): self
 	{
-		if ($this->lastJoin !== null) {
-			$this->lastJoin->andOn($col, $op, $val);
+		if ($this->lastJoin === null) {
+			throw new RuntimeException('Unable to add condition, no previous join');
 		}
+		$this->lastJoin->andOn($col, $op, $val);
 		return $this;
 	}
 
@@ -154,9 +156,10 @@ final class SelectQuery implements ExpressionInterface
 	 */
 	public function orOn($col, ?string $op = null, $val = null): self
 	{
-		if ($this->lastJoin !== null) {
-			$this->lastJoin->orOn($col, $op, $val);
+		if ($this->lastJoin === null) {
+			throw new RuntimeException('Unable to add condition, no previous join');
 		}
+		$this->lastJoin->orOn($col, $op, $val);
 		return $this;
 	}
 
