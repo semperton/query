@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Semperton\Query\Expression;
 
+use Closure;
 use RuntimeException;
 use Semperton\Query\ExpressionInterface;
 use Semperton\Query\QueryFactory;
@@ -12,7 +13,7 @@ final class Filter implements ExpressionInterface
 {
 	/** @var array<int, array{
 	 * string,
-	 * string|callable|ExpressionInterface,
+	 * string|Closure|ExpressionInterface,
 	 * null|string,
 	 * null|scalar|array|ExpressionInterface
 	 * }> */
@@ -27,7 +28,7 @@ final class Filter implements ExpressionInterface
 	}
 
 	/**
-	 * @param string|callable|ExpressionInterface $col
+	 * @param string|Closure|ExpressionInterface $col
 	 * @param null|scalar|array|ExpressionInterface $val
 	 */
 	public function and($col, ?string $op = null, $val = null): self
@@ -37,7 +38,7 @@ final class Filter implements ExpressionInterface
 	}
 
 	/**
-	 * @param string|callable|ExpressionInterface $col
+	 * @param string|Closure|ExpressionInterface $col
 	 * @param null|scalar|array|ExpressionInterface $val
 	 */
 	public function or($col, ?string $op = null, $val = null): self
@@ -71,7 +72,7 @@ final class Filter implements ExpressionInterface
 			$operator = $condition[2];
 			$value = $condition[3];
 
-			if (is_callable($column)) { // sub filter
+			if ($column instanceof Closure) { // sub filter
 
 				$subFilter = new self($this->factory);
 
@@ -111,12 +112,15 @@ final class Filter implements ExpressionInterface
 				} else if (is_array($value)) {
 
 					$subParams = [];
+
+					/** @var mixed */
 					foreach ($value as $val) {
 
 						if ($val instanceof ExpressionInterface) {
 							$subParams[] = $val->compile($params);
 						} else {
 							$param = $this->factory->newParameter();
+							/** @var mixed */
 							$params[$param] = $val;
 							$subParams[] = $param;
 						}

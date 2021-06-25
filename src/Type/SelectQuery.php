@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Semperton\Query\Type;
 
+use Closure;
 use Semperton\Query\ExpressionInterface;
 use Semperton\Query\Expression\Field;
 use Semperton\Query\Expression\Filter;
@@ -59,7 +60,7 @@ final class SelectQuery implements ExpressionInterface
 	}
 
 	/**
-	 * @param string|callable|ExpressionInterface $table
+	 * @param string|Closure|ExpressionInterface $table
 	 */
 	public function from($table, string $alias = ''): self
 	{
@@ -67,6 +68,9 @@ final class SelectQuery implements ExpressionInterface
 		return $this;
 	}
 
+	/**
+	 * @param array<int|string, string|ExpressionInterface> $fields
+	 */
 	public function fields(array $fields): self
 	{
 		foreach ($fields as $alias => $field) {
@@ -82,7 +86,7 @@ final class SelectQuery implements ExpressionInterface
 	}
 
 	/**
-	 * @param string|callable|ExpressionInterface $table
+	 * @param string|Closure|ExpressionInterface $table
 	 */
 	public function join($table, string $alias = ''): self
 	{
@@ -90,7 +94,7 @@ final class SelectQuery implements ExpressionInterface
 	}
 
 	/**
-	 * @param string|callable|ExpressionInterface $table
+	 * @param string|Closure|ExpressionInterface $table
 	 */
 	public function innerJoin($table, string $alias = ''): self
 	{
@@ -99,7 +103,7 @@ final class SelectQuery implements ExpressionInterface
 	}
 
 	/**
-	 * @param string|callable|ExpressionInterface $table
+	 * @param string|Closure|ExpressionInterface $table
 	 */
 	public function leftJoin($table, string $alias = ''): self
 	{
@@ -108,7 +112,7 @@ final class SelectQuery implements ExpressionInterface
 	}
 
 	/**
-	 * @param string|callable|ExpressionInterface $table
+	 * @param string|Closure|ExpressionInterface $table
 	 */
 	public function rightJoin($table, string $alias = ''): self
 	{
@@ -117,7 +121,7 @@ final class SelectQuery implements ExpressionInterface
 	}
 
 	/**
-	 * @param string|callable|ExpressionInterface $table
+	 * @param string|Closure|ExpressionInterface $table
 	 */
 	protected function addJoin($table, string $alias, string $type): void
 	{
@@ -129,7 +133,7 @@ final class SelectQuery implements ExpressionInterface
 	}
 
 	/**
-	 * @param string|callable|ExpressionInterface $col
+	 * @param string|Closure|ExpressionInterface $col
 	 * @param null|scalar|array|ExpressionInterface $val
 	 */
 	public function on($col, ?string $op = null, $val = null): self
@@ -138,7 +142,7 @@ final class SelectQuery implements ExpressionInterface
 	}
 
 	/**
-	 * @param string|callable|ExpressionInterface $col
+	 * @param string|Closure|ExpressionInterface $col
 	 * @param null|scalar|array|ExpressionInterface $val
 	 */
 	public function andOn($col, ?string $op = null, $val = null): self
@@ -151,7 +155,7 @@ final class SelectQuery implements ExpressionInterface
 	}
 
 	/**
-	 * @param string|callable|ExpressionInterface $col
+	 * @param string|Closure|ExpressionInterface $col
 	 * @param null|scalar|array|ExpressionInterface $val
 	 */
 	public function orOn($col, ?string $op = null, $val = null): self
@@ -170,7 +174,7 @@ final class SelectQuery implements ExpressionInterface
 	}
 
 	/**
-	 * @param string|callable|ExpressionInterface $col
+	 * @param string|Closure|ExpressionInterface $col
 	 * @param null|scalar|array|ExpressionInterface $val
 	 */
 	public function having($col, ?string $op = null, $val = null): self
@@ -179,7 +183,7 @@ final class SelectQuery implements ExpressionInterface
 	}
 
 	/**
-	 * @param string|callable|ExpressionInterface $col
+	 * @param string|Closure|ExpressionInterface $col
 	 * @param null|scalar|array|ExpressionInterface $val
 	 */
 	public function andHaving($col, ?string $op = null, $val = null): self
@@ -189,7 +193,7 @@ final class SelectQuery implements ExpressionInterface
 	}
 
 	/**
-	 * @param string|callable|ExpressionInterface $col
+	 * @param string|Closure|ExpressionInterface $col
 	 * @param null|scalar|array|ExpressionInterface $val
 	 */
 	public function orHaving($col, ?string $op = null, $val = null): self

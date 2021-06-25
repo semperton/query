@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Semperton\Query\Type;
 
+use Closure;
 use Semperton\Query\ExpressionInterface;
 use Semperton\Query\Expression\Filter;
 use Semperton\Query\Expression\Order;
@@ -33,7 +34,7 @@ final class DeleteQuery implements ExpressionInterface
 	}
 
 	/**
-	 * @param string|callable|ExpressionInterface $table
+	 * @param string|Closure|ExpressionInterface $table
 	 */
 	public function from($table, string $alias = ''): self
 	{

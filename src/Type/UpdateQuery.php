@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Semperton\Query\Type;
 
+use Closure;
 use Semperton\Query\ExpressionInterface;
 use Semperton\Query\Expression\Filter;
 use Semperton\Query\Expression\Order;
@@ -21,7 +22,7 @@ final class UpdateQuery implements ExpressionInterface
 	use WhereTrait;
 	use LimitTrait;
 
-	/** @var array */
+	/** @var array<array-key, null|scalar|ExpressionInterface> */
 	protected $values = [];
 
 	/** @var Table */
@@ -36,7 +37,7 @@ final class UpdateQuery implements ExpressionInterface
 	}
 
 	/**
-	 * @param string|callable|ExpressionInterface $table
+	 * @param string|Closure|ExpressionInterface $table
 	 */
 	public function table($table, string $alias = ''): self
 	{
@@ -54,6 +55,7 @@ final class UpdateQuery implements ExpressionInterface
 			$field = [$field => $value];
 		}
 
+		/** @psalm-suppress MixedPropertyTypeCoercion */
 		$this->values = array_merge($this->values, $field);
 
 		return $this;

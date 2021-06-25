@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Semperton\Query\Traits;
 
+use Closure;
 use Semperton\Query\ExpressionInterface;
 use Semperton\Query\Expression\Filter;
 
@@ -13,7 +14,7 @@ trait WhereTrait
 	protected $where;
 
 	/**
-	 * @param string|callable|ExpressionInterface $col
+	 * @param string|Closure|ExpressionInterface $col
 	 * @param null|scalar|array|ExpressionInterface $val 
 	 * @return static
 	 */
@@ -23,7 +24,7 @@ trait WhereTrait
 	}
 
 	/**
-	 * @param string|callable|ExpressionInterface $col
+	 * @param string|Closure|ExpressionInterface $col
 	 * @param null|scalar|array|ExpressionInterface $val
 	 * @return static
 	 */
@@ -34,7 +35,7 @@ trait WhereTrait
 	}
 
 	/**
-	 * @param string|callable|ExpressionInterface $col
+	 * @param string|Closure|ExpressionInterface $col
 	 * @param null|scalar|array|ExpressionInterface $val
 	 * @return static
 	 */

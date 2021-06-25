@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Semperton\Query\Expression;
 
+use Closure;
 use Semperton\Query\ExpressionInterface;
 use Semperton\Query\QueryFactory;
 use Semperton\Query\Type\SelectQuery;
@@ -11,7 +12,7 @@ use RuntimeException;
 
 final class Table implements ExpressionInterface
 {
-	/** @var array<int, array{string|callable|ExpressionInterface, string}> */
+	/** @var array<int, array{string|Closure|ExpressionInterface, string}> */
 	protected $tables = [];
 
 	/** @var QueryFactory */
@@ -23,7 +24,7 @@ final class Table implements ExpressionInterface
 	}
 
 	/**
-	 * @param string|callable|ExpressionInterface $table
+	 * @param string|Closure|ExpressionInterface $table
 	 */
 	public function add($table, string $alias = ''): self
 	{

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Semperton\Query\Type;
 
+use Closure;
 use Semperton\Query\ExpressionInterface;
 use Semperton\Query\Expression\Table;
 use Semperton\Query\QueryFactory;
@@ -29,7 +30,7 @@ final class InsertQuery implements ExpressionInterface
 	}
 
 	/**
-	 * @param string|callable|ExpressionInterface $table
+	 * @param string|Closure|ExpressionInterface $table
 	 */
 	public function into($table): self
 	{
@@ -82,12 +83,14 @@ final class InsertQuery implements ExpressionInterface
 		$sql[] = '(' . implode(', ', array_keys($this->values)) . ')';
 
 		$values = [];
-		foreach ($this->values as $col => $value) {
+		/** @var mixed */
+		foreach ($this->values as $value) {
 
 			if ($value instanceof ExpressionInterface) {
 				$values[] = $value->compile($params);
 			} else {
 				$param = $this->factory->newParameter();
+				/** @var mixed */
 				$params[$param] = $value;
 				$values[] = $param;
 			}
