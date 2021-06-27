@@ -49,7 +49,7 @@ final class Filter implements ExpressionInterface
 
 	public function isValid(): bool
 	{
-		return !empty($this->conditions);
+		return !!$this->conditions;
 	}
 
 	public function reset(): self
@@ -92,13 +92,14 @@ final class Filter implements ExpressionInterface
 					$sql[] = $bool;
 				}
 
-				if (is_string($column)) {
-					$sql[] = $this->factory->quoteIdentifier($column);
-				} else if ($value instanceof ExpressionInterface) {
+				if ($column instanceof ExpressionInterface) {
 					$sql[] = $column->compile($params);
 				} else {
-					throw new RuntimeException('Invalid filter argument');
+					$sql[] = $this->factory->quoteIdentifier($column);
 				}
+				// else {
+				// 	throw new RuntimeException('Invalid filter argument');
+				// }
 
 				if (empty($operator)) {
 					continue;
@@ -126,7 +127,7 @@ final class Filter implements ExpressionInterface
 						}
 					}
 
-					if ($operator === 'between' && count($value) == 2) {
+					if ($operator === 'between' && count($value) === 2) {
 						$sql[] = implode(' and ', $subParams);
 					} else {
 						$sql[] = '(' . implode(', ', $subParams) . ')';

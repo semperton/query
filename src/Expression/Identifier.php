@@ -23,7 +23,7 @@ final class Identifier implements ExpressionInterface
 
 	public function isValid(): bool
 	{
-		return !empty($this->value);
+		return $this->value !== '';
 	}
 
 	public function reset(): self

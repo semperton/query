@@ -31,7 +31,7 @@ final class Field implements ExpressionInterface
 
 	public function isValid(): bool
 	{
-		return !empty($this->fields);
+		return !!$this->fields;
 	}
 
 	public function reset(): self
@@ -56,7 +56,11 @@ final class Field implements ExpressionInterface
 				$field = $this->factory->quoteIdentifier($field);
 			}
 
-			$sql[] = empty($alias) ? $field : $field . ' ' . $this->factory->quoteIdentifier($alias);
+			if ($alias === '') {
+				$sql[] = $field;
+			} else {
+				$sql[] = $field . ' ' . $this->factory->quoteIdentifier($alias);
+			}
 		}
 
 		return implode(', ', $sql);

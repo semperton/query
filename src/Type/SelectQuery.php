@@ -261,7 +261,7 @@ final class SelectQuery implements ExpressionInterface
 			$sql[] =  $this->where->compile($params);
 		}
 
-		if (!empty($this->groupBy)) {
+		if (!!$this->groupBy) {
 
 			$sql[] = 'group by';
 			$sql[] = implode(', ', $this->groupBy);

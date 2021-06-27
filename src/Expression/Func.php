@@ -30,7 +30,7 @@ final class Func implements ExpressionInterface
 
 	public function isValid(): bool
 	{
-		return !empty($this->name);
+		return $this->name !== '';
 	}
 
 	public function reset(): self

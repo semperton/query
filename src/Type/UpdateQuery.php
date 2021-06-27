@@ -63,7 +63,7 @@ final class UpdateQuery implements ExpressionInterface
 
 	public function isValid(): bool
 	{
-		return !empty($this->values) && $this->tables->isValid();
+		return !!$this->values && $this->tables->isValid();
 	}
 
 	public function reset(): self

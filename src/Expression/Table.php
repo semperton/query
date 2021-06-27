@@ -34,7 +34,7 @@ final class Table implements ExpressionInterface
 
 	public function isValid(): bool
 	{
-		return !empty($this->tables);
+		return !!$this->tables;
 	}
 
 	public function reset(): self
@@ -55,18 +55,25 @@ final class Table implements ExpressionInterface
 
 			if ($table instanceof ExpressionInterface) {
 				if ($table->isValid()) {
-					$sql[] = '(' . $table->compile($params) . ')' . (empty($alias) ? '' : ' ' . $this->factory->quoteIdentifier($alias));
+					$expr = '(' . $table->compile($params) . ')';
+					if ($alias !== '') {
+						$expr .= ' ' . $this->factory->quoteIdentifier($alias);
+					}
+					$sql[] = $expr;
 				}
 			} else if (is_string($table)) {
 				$table = $this->factory->quoteIdentifier($table);
-				$sql[] = empty($alias) ? $table : $table . ' ' . $this->factory->quoteIdentifier($alias);
+				if ($alias === '') {
+					$sql[] = $table;
+				} else {
+					$sql[] = $table . ' ' . $this->factory->quoteIdentifier($alias);
+				}
 			} else {
-				if (empty($alias)) {
+				if ($alias === '') {
 					throw new RuntimeException('Alias is required for sub select');
 				}
 
 				$subSelect = new SelectQuery($this->factory);
-
 				$table($subSelect);
 
 				if ($subSelect->isValid()) {

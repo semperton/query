@@ -52,7 +52,7 @@ final class InsertQuery implements ExpressionInterface
 
 	public function isValid(): bool
 	{
-		return !empty($this->values);
+		return !!$this->values;
 	}
 
 	public function reset(): self
