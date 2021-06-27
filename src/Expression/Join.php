@@ -8,6 +8,8 @@ use Closure;
 use Semperton\Query\ExpressionInterface;
 use Semperton\Query\QueryFactory;
 
+use function is_string;
+
 final class Join implements ExpressionInterface
 {
 	const TYPE_INNER = 'inner';

@@ -13,6 +13,10 @@ use Semperton\Query\Type\InsertQuery;
 use Semperton\Query\Type\SelectQuery;
 use Semperton\Query\Type\UpdateQuery;
 
+use function explode;
+use function implode;
+use function str_replace;
+
 class QueryFactory
 {
 	/** @var int */

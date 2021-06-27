@@ -18,6 +18,10 @@ use Semperton\Query\Traits\OrderByTrait;
 use Semperton\Query\Traits\WhereTrait;
 use RuntimeException;
 
+use function is_int;
+use function implode;
+use function array_merge;
+
 final class SelectQuery implements ExpressionInterface
 {
 	use ExpressionTrait;

@@ -7,6 +7,8 @@ namespace Semperton\Query\Expression;
 use Semperton\Query\QueryFactory;
 use Semperton\Query\ExpressionInterface;
 
+use function implode;
+
 final class Func implements ExpressionInterface
 {
 	/** @var string */

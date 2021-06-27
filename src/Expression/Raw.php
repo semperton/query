@@ -8,6 +8,8 @@ use Semperton\Query\QueryFactory;
 use Semperton\Query\ExpressionInterface;
 use Semperton\Query\Traits\ExpressionTrait;
 
+use function array_merge;
+
 final class Raw implements ExpressionInterface
 {
 	use ExpressionTrait;

@@ -7,6 +7,8 @@ namespace Semperton\Query\Expression;
 use Semperton\Query\ExpressionInterface;
 use Semperton\Query\QueryFactory;
 
+use function implode;
+
 final class Order implements ExpressionInterface
 {
 	/** @var array<int, array{string|ExpressionInterface, string}> */

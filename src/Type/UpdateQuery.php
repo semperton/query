@@ -15,6 +15,10 @@ use Semperton\Query\Traits\LimitTrait;
 use Semperton\Query\Traits\OrderByTrait;
 use Semperton\Query\Traits\WhereTrait;
 
+use function is_array;
+use function array_merge;
+use function implode;
+
 final class UpdateQuery implements ExpressionInterface
 {
 	use ExpressionTrait;

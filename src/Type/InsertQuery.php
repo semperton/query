@@ -10,6 +10,10 @@ use Semperton\Query\Expression\Table;
 use Semperton\Query\QueryFactory;
 use Semperton\Query\Traits\ExpressionTrait;
 
+use function implode;
+use function array_keys;
+use function array_merge;
+
 final class InsertQuery implements ExpressionInterface
 {
 	use ExpressionTrait;

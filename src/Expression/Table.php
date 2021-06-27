@@ -10,6 +10,9 @@ use Semperton\Query\QueryFactory;
 use Semperton\Query\Type\SelectQuery;
 use RuntimeException;
 
+use function is_string;
+use function implode;
+
 final class Table implements ExpressionInterface
 {
 	/** @var array<int, array{string|Closure|ExpressionInterface, string}> */

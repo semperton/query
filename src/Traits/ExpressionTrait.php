@@ -10,6 +10,13 @@ use Semperton\Query\Expression\Identifier;
 use Semperton\Query\Expression\Raw;
 use Semperton\Query\QueryFactory;
 
+use function is_string;
+use function is_bool;
+use function array_keys;
+use function array_values;
+use function str_replace;
+use function ltrim;
+
 trait ExpressionTrait
 {
 	/** @var array<string, scalar> */

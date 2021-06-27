@@ -9,6 +9,9 @@ use Semperton\Query\Expression\Table;
 use Semperton\Query\QueryFactory;
 use Semperton\Query\Traits\ExpressionTrait;
 
+use function implode;
+use function array_merge;
+
 final class DropQuery implements ExpressionInterface
 {
 	use ExpressionTrait;

@@ -5,9 +5,13 @@ declare(strict_types=1);
 namespace Semperton\Query\Expression;
 
 use Closure;
-use RuntimeException;
 use Semperton\Query\ExpressionInterface;
 use Semperton\Query\QueryFactory;
+
+use function implode;
+use function is_array;
+use function strtolower;
+use function count;
 
 final class Filter implements ExpressionInterface
 {

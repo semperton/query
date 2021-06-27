@@ -15,6 +15,9 @@ use Semperton\Query\Traits\LimitTrait;
 use Semperton\Query\Traits\OrderByTrait;
 use Semperton\Query\Traits\WhereTrait;
 
+use function implode;
+use function array_merge;
+
 final class DeleteQuery implements ExpressionInterface
 {
 	use ExpressionTrait;
