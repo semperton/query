@@ -40,9 +40,8 @@ final class Func implements ExpressionInterface
 		return $this;
 	}
 
-	public function compile(?array &$params = null): string
+	public function compile(array &$params = []): string
 	{
-		$params = $params ?? [];
 		$sql = [];
 
 		foreach ($this->args as $arg) {

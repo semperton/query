@@ -235,10 +235,8 @@ final class SelectQuery implements ExpressionInterface
 		return $this;
 	}
 
-	public function compile(?array &$params = null): string
+	public function compile(array &$params = []): string
 	{
-		$params = $params ?? [];
-
 		$sql = ['select'];
 
 		if ($this->distinct) {
@@ -295,9 +293,6 @@ final class SelectQuery implements ExpressionInterface
 			}
 		}
 
-		/**
-		 * @psalm-suppress PossiblyNullArgument
-		 */
 		$params = array_merge($params, $this->params);
 
 		return implode(' ', $sql);

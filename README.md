@@ -15,4 +15,4 @@ Just use Composer:
 ```
 composer require semperton/query
 ```
-Query requires PHP 7.1+
+Query requires PHP 7.2+

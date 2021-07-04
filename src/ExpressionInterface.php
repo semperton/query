@@ -7,6 +7,7 @@ namespace Semperton\Query;
 interface ExpressionInterface
 {
 	public function isValid(): bool;
-	public function reset(): self;
-	public function compile(?array &$params = null): string;
+	/** @return self */
+	public function reset();
+	public function compile(array &$params = []): string;
 }

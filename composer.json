@@ -3,6 +3,9 @@
     "description": "A small and standalone SQL query builder.",
     "type": "library",
     "license": "MIT",
+    "require": {
+        "php": ">=7.2.0"
+    },
     "autoload": {
         "psr-4": {
             "Semperton\\Query\\": "src/"

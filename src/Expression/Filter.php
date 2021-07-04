@@ -62,10 +62,8 @@ final class Filter implements ExpressionInterface
 		return $this;
 	}
 
-	public function compile(?array &$params = null): string
+	public function compile(array &$params = []): string
 	{
-		$params = $params ?? [];
-
 		$sql = [];
 		$first = true;
 
