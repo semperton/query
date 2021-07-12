@@ -260,7 +260,7 @@ final class SelectQuery implements ExpressionInterface
 
 		if ($this->where->isValid()) {
 			$sql[] = 'where';
-			$sql[] =  $this->where->compile($params);
+			$sql[] = $this->where->compile($params);
 		}
 
 		if (!!$this->groupBy) {

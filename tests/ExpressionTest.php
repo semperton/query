@@ -5,7 +5,9 @@ declare(strict_types=1);
 use PHPUnit\Framework\TestCase;
 use Semperton\Query\Expression\Field;
 use Semperton\Query\Expression\Filter;
+use Semperton\Query\Expression\Table;
 use Semperton\Query\QueryFactory;
+use Semperton\Query\Type\SelectQuery;
 
 final class ExpressionTest extends TestCase
 {
@@ -106,5 +108,22 @@ final class ExpressionTest extends TestCase
 		$ident = $factory->ident('table.*');
 
 		$this->assertEquals('"table".*', $ident->compile());
+	}
+
+	public function testTable(): void
+	{
+		$this->expectException(InvalidArgumentException::class);
+		$factory = new QueryFactory();
+		$table = new Table($factory);
+
+		$table->add(function (SelectQuery $query) {
+			$query->from('user')->where('id', '>', 3);
+		}, 'users');
+
+		$this->assertEquals('(select * from user where id > :p1) users', $table->compile());
+
+		$table->reset();
+		$table->add(function (SelectQuery $query) {
+		});
 	}
 }

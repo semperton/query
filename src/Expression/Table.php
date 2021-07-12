@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Semperton\Query\Expression;
 
 use Closure;
+use InvalidArgumentException;
 use Semperton\Query\ExpressionInterface;
 use Semperton\Query\QueryFactory;
 use Semperton\Query\Type\SelectQuery;
-use RuntimeException;
 
 use function is_string;
 use function implode;
@@ -31,6 +31,10 @@ final class Table implements ExpressionInterface
 	 */
 	public function add($table, string $alias = ''): self
 	{
+		if ($table instanceof Closure && $alias === '') {
+			throw new InvalidArgumentException('Alias cannot be empty for sub select');
+		}
+
 		$this->tables[] = [$table, $alias];
 		return $this;
 	}
@@ -71,9 +75,6 @@ final class Table implements ExpressionInterface
 					$sql[] = $table . ' ' . $this->factory->quoteIdentifier($alias);
 				}
 			} else {
-				if ($alias === '') {
-					throw new RuntimeException('Alias is required for sub select');
-				}
 
 				$subSelect = new SelectQuery($this->factory);
 				$table($subSelect);
