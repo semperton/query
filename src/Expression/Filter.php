@@ -103,41 +103,40 @@ final class Filter implements ExpressionInterface
 				// 	throw new RuntimeException('Invalid filter argument');
 				// }
 
-				if (empty($operator)) {
-					continue;
-				}
+				if (!empty($operator)) {
 
-				$operator = strtolower($operator);
-				$sql[] = $operator;
+					$operator = strtolower($operator);
+					$sql[] = $operator;
 
-				if ($value instanceof ExpressionInterface) {
-					$sql[] = $value->compile($params);
-				} else if (is_array($value)) {
+					if ($value instanceof ExpressionInterface) {
+						$sql[] = $value->compile($params);
+					} else if (is_array($value)) {
 
-					$subParams = [];
+						$subParams = [];
 
-					/** @var mixed */
-					foreach ($value as $val) {
+						/** @var mixed */
+						foreach ($value as $val) {
 
-						if ($val instanceof ExpressionInterface) {
-							$subParams[] = $val->compile($params);
-						} else {
-							$param = $this->factory->newParameter();
-							/** @var mixed */
-							$params[$param] = $val;
-							$subParams[] = $param;
+							if ($val instanceof ExpressionInterface) {
+								$subParams[] = $val->compile($params);
+							} else {
+								$param = $this->factory->newParameter();
+								/** @var mixed */
+								$params[$param] = $val;
+								$subParams[] = $param;
+							}
 						}
-					}
 
-					if ($operator === 'between' && count($value) === 2) {
-						$sql[] = implode(' and ', $subParams);
+						if ($operator === 'between' && count($value) === 2) {
+							$sql[] = implode(' and ', $subParams);
+						} else {
+							$sql[] = '(' . implode(', ', $subParams) . ')';
+						}
 					} else {
-						$sql[] = '(' . implode(', ', $subParams) . ')';
+						$param = $this->factory->newParameter();
+						$params[$param] = $value;
+						$sql[] = $param;
 					}
-				} else {
-					$param = $this->factory->newParameter();
-					$params[$param] = $value;
-					$sql[] = $param;
 				}
 			}
 

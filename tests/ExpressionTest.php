@@ -69,6 +69,10 @@ final class ExpressionTest extends TestCase
 		$sql = $filter->compile($params);
 		$this->assertEquals('u.age > (select 20 + 2)', $sql);
 		$this->assertSame([], $params);
+
+		$filter->reset();
+		$filter->and('id')->and('age', '>', 22);
+		$this->assertEquals('id and age > :p9', $filter->compile());
 	}
 
 	public function testExpression(): void
