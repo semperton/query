@@ -75,6 +75,12 @@ final class ExpressionTest extends TestCase
 		$filter->reset();
 		$filter->and('id')->and('age', '>', 22);
 		$this->assertEquals('id and age > :p9', $filter->compile());
+
+		$filter->reset();
+		$sub = new Filter($factory);
+		$sub->and('id', '=', 2)->or('id', '=', 5);
+		$filter->and($sub)->and('age', '>', 22);
+		$this->assertEquals('(id = :p10 or id = :p11) and age > :p12', $filter->compile());
 	}
 
 	public function testExpression(): void
