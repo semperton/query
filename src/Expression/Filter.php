@@ -74,7 +74,7 @@ final class Filter implements ExpressionInterface
 			$operator = $condition[2];
 			$value = $condition[3];
 
-			if ($column instanceof Closure) { // sub filter
+			if ($column instanceof Closure) { // sub filter closure
 
 				$subFilter = new self($this->factory);
 
@@ -87,6 +87,16 @@ final class Filter implements ExpressionInterface
 					}
 
 					$sql[] = '(' . $subFilter->compile($params) . ')';
+				}
+			} else if ($column instanceof Filter) { // sub filter expression
+
+				if ($column->isValid()) {
+
+					if (!$first) {
+						$sql[] = $bool;
+					}
+
+					$sql[] = '(' . $column->compile($params) . ')';
 				}
 			} else {
 
