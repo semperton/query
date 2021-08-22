@@ -44,13 +44,18 @@ final class FactoryTest extends TestCase
 		$field = $factory->maybeQuote('user');
 		$this->assertEquals('user', $field);
 
-		$factory = new QueryFactory(true, '`');
+		$factory = new QueryFactory(true, QueryFactory::QUOTE_STR_MYSQL);
 
 		$field = $factory->quoteIdentifier('user.name');
 		$this->assertEquals('`user`.`name`', $field);
 
 		$field = $factory->maybeQuote('user.*');
 		$this->assertEquals('`user`.*', $field);
+
+		$factory = new QueryFactory(true, QueryFactory::QUOTE_STR_MSSQL);
+
+		$field = $factory->quoteIdentifier('user.name');
+		$this->assertEquals('[user].[name]', $field);
 	}
 
 	public function testEscaping(): void

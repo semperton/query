@@ -19,6 +19,10 @@ use function str_replace;
 
 class QueryFactory
 {
+	const QUOTE_STR_DEFAULT = '"';
+	const QUOTE_STR_MYSQL = '`';
+	const QUOTE_STR_MSSQL = '[';
+
 	/** @var int */
 	protected $parameterCount = 0;
 
@@ -126,6 +130,12 @@ class QueryFactory
 	protected function sqlQuote(string $str): string
 	{
 		$quote = $this->quoteStr;
+		if ($quote === self::QUOTE_STR_MSSQL) {
+
+			$str = str_replace([$quote, ']'], [$quote . $quote, ']]'], $str);
+			return $quote . $str . ']';
+		}
+
 		$str = str_replace($quote, $quote . $quote, $str);
 		return $quote . $str . $quote;
 	}
