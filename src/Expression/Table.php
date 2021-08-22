@@ -63,16 +63,16 @@ final class Table implements ExpressionInterface
 				if ($table->isValid()) {
 					$expr = '(' . $table->compile($params) . ')';
 					if ($alias !== '') {
-						$expr .= ' ' . $this->factory->quoteIdentifier($alias);
+						$expr .= ' ' . $this->factory->maybeQuote($alias);
 					}
 					$sql[] = $expr;
 				}
 			} else if (is_string($table)) {
-				$table = $this->factory->quoteIdentifier($table);
+				$table = $this->factory->maybeQuote($table);
 				if ($alias === '') {
 					$sql[] = $table;
 				} else {
-					$sql[] = $table . ' ' . $this->factory->quoteIdentifier($alias);
+					$sql[] = $table . ' ' . $this->factory->maybeQuote($alias);
 				}
 			} else {
 
@@ -80,7 +80,7 @@ final class Table implements ExpressionInterface
 				$table($subSelect);
 
 				if ($subSelect->isValid()) {
-					$sql[] = '(' . $subSelect->compile($params) . ') ' . $this->factory->quoteIdentifier($alias);
+					$sql[] = '(' . $subSelect->compile($params) . ') ' . $this->factory->maybeQuote($alias);
 				}
 			}
 		}

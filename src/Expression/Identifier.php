@@ -33,6 +33,6 @@ final class Identifier implements ExpressionInterface
 
 	public function compile(array &$params = []): string
 	{
-		return $this->factory->quoteIdentifier($this->value);
+		return $this->factory->maybeQuote($this->value);
 	}
 }

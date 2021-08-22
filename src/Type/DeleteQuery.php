@@ -83,7 +83,7 @@ final class DeleteQuery implements ExpressionInterface
 		}
 
 		if ($this->limit > 0) {
-			$param = $this->factory->newParameter();
+			$param = $this->factory->nextParam();
 			$params[$param] = $this->limit;
 			$sql[] = 'limit ' . $param;
 		}

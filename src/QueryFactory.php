@@ -87,18 +87,23 @@ class QueryFactory
 		return new Func($this, $name, ...$args);
 	}
 
-	public function newParameter(): string
+	public function nextParam(): string
 	{
 		$num = ++$this->parameterCount;
 		return ':' . $this->parameterName . $num;
 	}
 
-	public function quoteIdentifier(string $field): string
+	public function maybeQuote(string $field): string
 	{
-		if (!$this->quoting) {
-			return $field;
+		if ($this->quoting) {
+			$field = $this->quoteIdentifier($field);
 		}
 
+		return $field;
+	}
+
+	public function quoteIdentifier(string $field): string
+	{
 		$parts = explode('.', $field);
 
 		foreach ($parts as &$part) {

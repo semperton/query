@@ -91,7 +91,7 @@ final class InsertQuery implements ExpressionInterface
 			if ($value instanceof ExpressionInterface) {
 				$values[] = $value->compile($params);
 			} else {
-				$param = $this->factory->newParameter();
+				$param = $this->factory->nextParam();
 				/** @var mixed */
 				$params[$param] = $value;
 				$values[] = $param;

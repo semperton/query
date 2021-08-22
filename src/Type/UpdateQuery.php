@@ -98,7 +98,7 @@ final class UpdateQuery implements ExpressionInterface
 			if ($value instanceof ExpressionInterface) {
 				$assign[] = $field . ' = ' . $value->compile($params);
 			} else {
-				$param = $this->factory->newParameter();
+				$param = $this->factory->nextParam();
 				$assign[] = $field . ' = ' . $param;
 				$params[$param] = $value;
 			}
@@ -117,7 +117,7 @@ final class UpdateQuery implements ExpressionInterface
 		}
 
 		if ($this->limit > 0) {
-			$param = $this->factory->newParameter();
+			$param = $this->factory->nextParam();
 			$params[$param] = $this->limit;
 			$sql[] = 'limit ' . $param;
 		}

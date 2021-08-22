@@ -63,7 +63,7 @@ final class Order implements ExpressionInterface
 			if ($field instanceof ExpressionInterface) {
 				$field = $field->compile($params);
 			} else {
-				$field = $this->factory->quoteIdentifier($field);
+				$field = $this->factory->maybeQuote($field);
 			}
 
 			$sql[] = "$field $dir";

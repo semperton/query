@@ -54,13 +54,13 @@ final class Field implements ExpressionInterface
 			if ($field instanceof ExpressionInterface) {
 				$field = $field->compile($params);
 			} else {
-				$field = $this->factory->quoteIdentifier($field);
+				$field = $this->factory->maybeQuote($field);
 			}
 
 			if ($alias === '') {
 				$sql[] = $field;
 			} else {
-				$sql[] = $field . ' ' . $this->factory->quoteIdentifier($alias);
+				$sql[] = $field . ' ' . $this->factory->maybeQuote($alias);
 			}
 		}
 

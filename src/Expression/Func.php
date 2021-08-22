@@ -49,7 +49,7 @@ final class Func implements ExpressionInterface
 			if ($arg instanceof ExpressionInterface) {
 				$sql[] = $arg->compile($params);
 			} else {
-				$param = $this->factory->newParameter();
+				$param = $this->factory->nextParam();
 				$params[$param] = $arg;
 				$sql[] = $param;
 			}

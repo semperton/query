@@ -107,7 +107,7 @@ final class Filter implements ExpressionInterface
 				if ($column instanceof ExpressionInterface) {
 					$sql[] = $column->compile($params);
 				} else {
-					$sql[] = $this->factory->quoteIdentifier($column);
+					$sql[] = $this->factory->maybeQuote($column);
 				}
 				// else {
 				// 	throw new RuntimeException('Invalid filter argument');
@@ -130,7 +130,7 @@ final class Filter implements ExpressionInterface
 							if ($val instanceof ExpressionInterface) {
 								$subParams[] = $val->compile($params);
 							} else {
-								$param = $this->factory->newParameter();
+								$param = $this->factory->nextParam();
 								/** @var mixed */
 								$params[$param] = $val;
 								$subParams[] = $param;
@@ -143,7 +143,7 @@ final class Filter implements ExpressionInterface
 							$sql[] = '(' . implode(', ', $subParams) . ')';
 						}
 					} else {
-						$param = $this->factory->newParameter();
+						$param = $this->factory->nextParam();
 						$params[$param] = $value;
 						$sql[] = $param;
 					}
