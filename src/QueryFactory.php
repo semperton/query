@@ -23,11 +23,13 @@ class QueryFactory
 	const QUOTE_STR_MYSQL = '`';
 	const QUOTE_STR_MSSQL = '[';
 
+	const ESCAPE_STR_DEFAULT = "'";
+
 	/** @var int */
 	protected $parameterCount = 0;
 
 	/** @var string */
-	protected $parameterName = 'p';
+	protected $parameterPrefix = 'p';
 
 	/** @var bool */
 	protected $quoting;
@@ -40,8 +42,8 @@ class QueryFactory
 
 	public function __construct(
 		bool $quoting = false,
-		string $quoteStr = '"',
-		string $escapeStr = "'"
+		string $quoteStr = self::QUOTE_STR_DEFAULT,
+		string $escapeStr = self::ESCAPE_STR_DEFAULT
 	) {
 		$this->quoting = $quoting;
 		$this->quoteStr = $quoteStr;
@@ -94,7 +96,7 @@ class QueryFactory
 	public function nextParam(): string
 	{
 		$num = ++$this->parameterCount;
-		return ':' . $this->parameterName . $num;
+		return ':' . $this->parameterPrefix . $num;
 	}
 
 	public function maybeQuote(string $field): string
