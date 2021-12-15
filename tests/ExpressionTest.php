@@ -16,7 +16,6 @@ final class ExpressionTest extends TestCase
 		$factory = new QueryFactory();
 		$field = new Field($factory);
 
-		$params = [];
 		$field->add('a.time', 'time');
 		$this->assertTrue($field->isValid());
 		$field->reset();
@@ -36,7 +35,6 @@ final class ExpressionTest extends TestCase
 
 	public function testFilter(): void
 	{
-		$params = [];
 		$factory = new QueryFactory();
 		$filter = new Filter($factory);
 		$this->assertFalse($filter->isValid());
@@ -73,10 +71,12 @@ final class ExpressionTest extends TestCase
 		$this->assertSame([], $params);
 
 		$filter->reset();
+		$params = [];
 		$filter->and('id')->and('age', '>', 22);
 		$this->assertEquals('id and age > :p9', $filter->compile());
 
 		$filter->reset();
+		$params = [];
 		$sub = new Filter($factory);
 		$sub->and('id', '=', 2)->or('id', '=', 5);
 		$filter->and($sub)->and('age', '>', 22);
@@ -88,7 +88,6 @@ final class ExpressionTest extends TestCase
 		$factory = new QueryFactory();
 		$prepare = 'select :firstname, :lastname';
 
-		$params = [];
 		$expr = $factory->raw($prepare)->bind(':firstname', 'John')->bind('lastname', 'Doe');
 		$expected = "select 'John', 'Doe'";
 		$this->assertEquals($expected, $expr->debug());
@@ -101,7 +100,6 @@ final class ExpressionTest extends TestCase
 	{
 		$factory = new QueryFactory(true);
 		$func = $factory->func('json_extract', $factory->ident('data'), '$.path');
-		$params = [];
 		$sql = $func->compile($params);
 
 		$this->assertEquals('json_extract("data", :p1)', $sql);

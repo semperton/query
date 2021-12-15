@@ -82,8 +82,10 @@ final class UpdateQuery implements ExpressionInterface
 		return $this;
 	}
 
-	public function compile(array &$params = []): string
+	public function compile(?array &$params = null): string
 	{
+		$params = $params ?? [];
+
 		$sql = ['update'];
 
 		if ($this->tables->isValid()) {
@@ -122,6 +124,7 @@ final class UpdateQuery implements ExpressionInterface
 			$sql[] = 'limit ' . $param;
 		}
 
+		/** @psalm-suppress PossiblyNullArgument */
 		$params = array_merge($params, $this->params);
 
 		return implode(' ', $sql);

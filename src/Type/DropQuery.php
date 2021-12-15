@@ -54,8 +54,10 @@ final class DropQuery implements ExpressionInterface
 		return $this;
 	}
 
-	public function compile(array &$params = []): string
+	public function compile(?array &$params = null): string
 	{
+		$params = $params ?? [];
+
 		$sql = ['drop table'];
 
 		if ($this->exists) {
@@ -66,6 +68,7 @@ final class DropQuery implements ExpressionInterface
 			$sql[] = $this->tables->compile($params);
 		}
 
+		/** @psalm-suppress PossiblyNullArgument */
 		$params = array_merge($params, $this->params);
 
 		return implode(' ', $sql);

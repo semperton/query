@@ -69,8 +69,10 @@ final class InsertQuery implements ExpressionInterface
 		return $this;
 	}
 
-	public function compile(array &$params = []): string
+	public function compile(?array &$params = null): string
 	{
+		$params = $params ?? [];
+
 		$sql = ['insert'];
 
 		if ($this->ignore) {
@@ -101,6 +103,7 @@ final class InsertQuery implements ExpressionInterface
 		$sql[] = 'values';
 		$sql[] = '(' . implode(', ', $values) . ')';
 
+		/** @psalm-suppress PossiblyNullArgument */
 		$params = array_merge($params, $this->params);
 
 		return implode(' ', $sql);

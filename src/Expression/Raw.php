@@ -34,8 +34,9 @@ final class Raw implements ExpressionInterface
 		return $this;
 	}
 
-	public function compile(array &$params = []): string
+	public function compile(?array &$params = null): string
 	{
+		$params = $params ?? [];
 		$params = array_merge($params, $this->params);
 
 		return $this->value;

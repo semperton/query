@@ -31,8 +31,10 @@ final class Identifier implements ExpressionInterface
 		return $this;
 	}
 
-	public function compile(array &$params = []): string
+	public function compile(?array &$params = null): string
 	{
+		$params = $params ?? [];
+
 		return $this->factory->maybeQuote($this->value);
 	}
 }

@@ -42,8 +42,9 @@ final class Field implements ExpressionInterface
 		return $this;
 	}
 
-	public function compile(array &$params = []): string
+	public function compile(?array &$params = null): string
 	{
+		$params = $params ?? [];
 		$sql = [];
 
 		foreach ($this->fields as $entry) {

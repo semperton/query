@@ -9,5 +9,5 @@ interface ExpressionInterface
 	public function isValid(): bool;
 	/** @return self */
 	public function reset();
-	public function compile(array &$params = []): string;
+	public function compile(?array &$params): string;
 }
