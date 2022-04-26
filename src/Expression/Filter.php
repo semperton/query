@@ -85,61 +85,68 @@ final class Filter implements ExpressionInterface
 					$sql[] = $bool;
 					$sql[] = '(' . $subFilter->compile($params) . ')';
 				}
-			} else if ($column instanceof Filter) { // sub filter expression
+
+				continue;
+			}
+
+			if ($column instanceof Filter) {
 
 				if ($column->valid()) {
-
 					$sql[] = $bool;
 					$sql[] = '(' . $column->compile($params) . ')';
 				}
-			} else {
+
+				continue;
+			}
+
+			if ($column instanceof ExpressionInterface) {
+
+				if (!$column->valid()) {
+					continue;
+				}
 
 				$sql[] = $bool;
+				$sql[] = $column->compile($params);
+			} else {
+				$sql[] = $bool;
+				$sql[] = $this->factory->maybeQuote($column);
+			}
 
-				if ($column instanceof ExpressionInterface) {
-					$sql[] = $column->compile($params);
-				} else {
-					$sql[] = $this->factory->maybeQuote($column);
-				}
-				// else {
-				// 	throw new RuntimeException('Invalid filter argument');
-				// }
+			if ($operator === null) {
+				continue;
+			}
 
-				if (!empty($operator)) {
+			$operator = strtolower($operator);
+			$sql[] = $operator;
 
-					$operator = strtolower($operator);
-					$sql[] = $operator;
+			if ($value instanceof ExpressionInterface) {
+				$sql[] = $value->compile($params);
+			} else if (is_array($value)) {
 
-					if ($value instanceof ExpressionInterface) {
-						$sql[] = $value->compile($params);
-					} else if (is_array($value)) {
+				$subParams = [];
 
-						$subParams = [];
+				/** @var mixed */
+				foreach ($value as $val) {
 
-						/** @var mixed */
-						foreach ($value as $val) {
-
-							if ($val instanceof ExpressionInterface) {
-								$subParams[] = $val->compile($params);
-							} else {
-								$param = $this->factory->nextParam();
-								/** @var mixed */
-								$params[$param] = $val;
-								$subParams[] = $param;
-							}
-						}
-
-						if ($operator === 'between' && count($value) === 2) {
-							$sql[] = implode(' and ', $subParams);
-						} else {
-							$sql[] = '(' . implode(', ', $subParams) . ')';
-						}
+					if ($val instanceof ExpressionInterface) {
+						$subParams[] = $val->compile($params);
 					} else {
 						$param = $this->factory->nextParam();
-						$params[$param] = $value;
-						$sql[] = $param;
+						/** @var mixed */
+						$params[$param] = $val;
+						$subParams[] = $param;
 					}
 				}
+
+				if ($operator === 'between' && count($value) === 2) {
+					$sql[] = implode(' and ', $subParams);
+				} else {
+					$sql[] = '(' . implode(', ', $subParams) . ')';
+				}
+			} else {
+				$param = $this->factory->nextParam();
+				$params[$param] = $value;
+				$sql[] = $param;
 			}
 		}
 
