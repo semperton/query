@@ -66,7 +66,6 @@ final class Filter implements ExpressionInterface
 	{
 		$params = $params ?? [];
 		$sql = [];
-		$first = true;
 
 		foreach ($this->conditions as $condition) {
 
@@ -83,27 +82,19 @@ final class Filter implements ExpressionInterface
 
 				if ($subFilter->valid()) {
 
-					if (!$first) {
-						$sql[] = $bool;
-					}
-
+					$sql[] = $bool;
 					$sql[] = '(' . $subFilter->compile($params) . ')';
 				}
 			} else if ($column instanceof Filter) { // sub filter expression
 
 				if ($column->valid()) {
 
-					if (!$first) {
-						$sql[] = $bool;
-					}
-
+					$sql[] = $bool;
 					$sql[] = '(' . $column->compile($params) . ')';
 				}
 			} else {
 
-				if (!$first) {
-					$sql[] = $bool;
-				}
+				$sql[] = $bool;
 
 				if ($column instanceof ExpressionInterface) {
 					$sql[] = $column->compile($params);
@@ -150,9 +141,10 @@ final class Filter implements ExpressionInterface
 					}
 				}
 			}
-
-			$first = false;
 		}
+
+		// remove leading and / or
+		array_shift($sql);
 
 		return implode(' ', $sql);
 	}
