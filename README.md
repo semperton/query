@@ -28,7 +28,7 @@ $userSelect = $factory->select('user')->limit(5);
 $sql = $userSelect->compile($params); // $params is passed by reference
 
 $pdo = new PDO('dsn');
-$stm = $pod->prepare($sql);
+$stm = $pdo->prepare($sql);
 $stm->execute($params);
 $users = $stm->fetchAll();
 
