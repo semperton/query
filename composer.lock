@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "88dd9043e0ea4ae72c768c143adc205f",
+    "content-hash": "c5046d9ff88dd0ada8c47c6a5cb806d3",
     "packages": [],
     "packages-dev": [
         {
@@ -2716,6 +2716,50 @@
                 }
             ],
             "time": "2020-09-28T06:39:44+00:00"
+        },
+        {
+            "name": "semperton/search",
+            "version": "0.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/semperton/search.git",
+                "reference": "99238ed236aabf1f45a86fab7d7caecf4242244f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/semperton/search/zipball/99238ed236aabf1f45a86fab7d7caecf4242244f",
+                "reference": "99238ed236aabf1f45a86fab7d7caecf4242244f",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.1"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^9.5",
+                "vimeo/psalm": "^4.9"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Semperton\\Search\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Johannes Rabausch",
+                    "email": "mail@jrabausch.de"
+                }
+            ],
+            "description": "Components to build data search criteria.",
+            "support": {
+                "issues": "https://github.com/semperton/search/issues",
+                "source": "https://github.com/semperton/search/tree/0.1.0"
+            },
+            "time": "2022-04-22T08:53:49+00:00"
         },
         {
             "name": "symfony/console",

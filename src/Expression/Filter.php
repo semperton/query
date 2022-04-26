@@ -11,6 +11,7 @@ use Semperton\Query\QueryFactory;
 use function implode;
 use function is_array;
 use function strtolower;
+use function array_shift;
 use function count;
 
 final class Filter implements ExpressionInterface
@@ -62,6 +63,27 @@ final class Filter implements ExpressionInterface
 		return $this;
 	}
 
+	protected function addSearchFilter(Filter $filter, \Semperton\Search\Filter $searchFilter): void
+	{
+		foreach ($searchFilter as $connection => $entry) {
+
+			$connect = $connection === $searchFilter::CONNECTION_AND ? 'and' : 'or';
+
+			if ($entry instanceof \Semperton\Search\Filter) {
+
+				$subFilter = new self($this->factory);
+
+				$this->addSearchFilter($subFilter, $entry);
+
+				if ($subFilter->valid()) {
+					$filter->$connect($subFilter);
+				}
+			} else { // condition
+				$filter->$connect($entry->getField(), $entry->getOperator(), $entry->getValue());
+			}
+		}
+	}
+
 	public function compile(?array &$params = null): string
 	{
 		$params = $params ?? [];
@@ -81,9 +103,22 @@ final class Filter implements ExpressionInterface
 				$column($subFilter);
 
 				if ($subFilter->valid()) {
-
 					$sql[] = $bool;
 					$sql[] = '(' . $subFilter->compile($params) . ')';
+				}
+
+				continue;
+			}
+
+			if ($column instanceof \Semperton\Search\Filter) {
+
+				$filter = new self($this->factory);
+
+				$this->addSearchFilter($filter, $column);
+
+				if ($filter->valid()) {
+					$sql[] = $bool;
+					$sql[] = '(' . $filter->compile($params) . ')';
 				}
 
 				continue;
