@@ -1,12 +1,12 @@
 <div align="center">
 <a href="https://github.com/semperton">
-<img src="https://avatars0.githubusercontent.com/u/76976189?s=140" alt="Semperton">
+<img width="140" src="https://raw.githubusercontent.com/semperton/misc/main/readme-logo.svg" alt="Semperton">
 </a>
 <h1>Semperton Query</h1>
 <p>A small and standalone SQL query builder.</p>
-//
 </div>
-<hr>
+
+---
 
 ## Installation
 
@@ -25,8 +25,7 @@ All Instances of ```ExpressionInterface``` provide a ```compile``` method which 
 $queryFactory = new QueryFactory();
 $userSelect = $factory->select('user')->limit(5);
 
-$params = [];
-$sql = $userSelect->compile($params);
+$sql = $userSelect->compile($params); // $params is passed by reference
 
 $pdo = new PDO('dsn');
 $stm = $pod->prepare($sql);
