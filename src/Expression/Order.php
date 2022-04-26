@@ -40,7 +40,7 @@ final class Order implements ExpressionInterface
 		return $this;
 	}
 
-	public function isValid(): bool
+	public function valid(): bool
 	{
 		return !!$this->orders;
 	}

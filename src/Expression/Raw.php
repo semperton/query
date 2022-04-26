@@ -23,7 +23,7 @@ final class Raw implements ExpressionInterface
 		$this->value = $value;
 	}
 
-	public function isValid(): bool
+	public function valid(): bool
 	{
 		return $this->value !== '';
 	}

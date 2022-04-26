@@ -31,7 +31,7 @@ final class Field implements ExpressionInterface
 		return $this;
 	}
 
-	public function isValid(): bool
+	public function valid(): bool
 	{
 		return !!$this->fields;
 	}

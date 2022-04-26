@@ -17,9 +17,9 @@ final class ExpressionTest extends TestCase
 		$field = new Field($factory);
 
 		$field->add('a.time', 'time');
-		$this->assertTrue($field->isValid());
+		$this->assertTrue($field->valid());
 		$field->reset();
-		$this->assertFalse($field->isValid());
+		$this->assertFalse($field->valid());
 		$field->add('u.name', 'name');
 		$sql = $field->compile($params);
 		$this->assertEquals('u.name name', $sql);
@@ -37,9 +37,9 @@ final class ExpressionTest extends TestCase
 	{
 		$factory = new QueryFactory();
 		$filter = new Filter($factory);
-		$this->assertFalse($filter->isValid());
+		$this->assertFalse($filter->valid());
 		$filter->and('u.name', 'like', '%John%')->and('u.age', '=', 22);
-		$this->assertTrue($filter->isValid());
+		$this->assertTrue($filter->valid());
 		$sql = $filter->compile($params);
 		$this->assertEquals('u.name like :p1 and u.age = :p2', $sql);
 		$this->assertSame([':p1' => '%John%', ':p2' => 22], $params);

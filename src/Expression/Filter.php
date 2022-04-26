@@ -51,7 +51,7 @@ final class Filter implements ExpressionInterface
 		return $this;
 	}
 
-	public function isValid(): bool
+	public function valid(): bool
 	{
 		return !!$this->conditions;
 	}
@@ -81,7 +81,7 @@ final class Filter implements ExpressionInterface
 
 				$column($subFilter);
 
-				if ($subFilter->isValid()) {
+				if ($subFilter->valid()) {
 
 					if (!$first) {
 						$sql[] = $bool;
@@ -91,7 +91,7 @@ final class Filter implements ExpressionInterface
 				}
 			} else if ($column instanceof Filter) { // sub filter expression
 
-				if ($column->isValid()) {
+				if ($column->valid()) {
 
 					if (!$first) {
 						$sql[] = $bool;

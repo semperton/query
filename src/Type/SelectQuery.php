@@ -212,9 +212,9 @@ final class SelectQuery implements ExpressionInterface
 		return $this;
 	}
 
-	public function isValid(): bool
+	public function valid(): bool
 	{
-		return $this->tables->isValid();
+		return $this->tables->valid();
 	}
 
 	public function reset(): self
@@ -245,13 +245,13 @@ final class SelectQuery implements ExpressionInterface
 			$sql[] = 'distinct';
 		}
 
-		if ($this->fields->isValid()) {
+		if ($this->fields->valid()) {
 			$sql[] = $this->fields->compile($params);
 		} else {
 			$sql[] = '*';
 		}
 
-		if ($this->tables->isValid()) {
+		if ($this->tables->valid()) {
 			$sql[] = 'from';
 			$sql[] = $this->tables->compile($params);
 		}
@@ -260,7 +260,7 @@ final class SelectQuery implements ExpressionInterface
 			$sql[] = $join->compile($params);
 		}
 
-		if ($this->where->isValid()) {
+		if ($this->where->valid()) {
 			$sql[] = 'where';
 			$sql[] = $this->where->compile($params);
 		}
@@ -271,12 +271,12 @@ final class SelectQuery implements ExpressionInterface
 			$sql[] = implode(', ', $this->groupBy);
 		}
 
-		if ($this->having->isValid()) {
+		if ($this->having->valid()) {
 			$sql[] = 'having';
 			$sql[] = $this->having->compile($params);
 		}
 
-		if ($this->orderBy->isValid()) {
+		if ($this->orderBy->valid()) {
 			$sql[] = 'order by';
 			$sql[] = $this->orderBy->compile($params);
 		}

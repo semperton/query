@@ -40,9 +40,9 @@ final class DropQuery implements ExpressionInterface
 		return $this;
 	}
 
-	public function isValid(): bool
+	public function valid(): bool
 	{
-		return $this->tables->isValid();
+		return $this->tables->valid();
 	}
 
 	public function reset(): self
@@ -64,7 +64,7 @@ final class DropQuery implements ExpressionInterface
 			$sql[] = 'if exists';
 		}
 
-		if ($this->tables->isValid()) {
+		if ($this->tables->valid()) {
 			$sql[] = $this->tables->compile($params);
 		}
 

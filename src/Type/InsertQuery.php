@@ -54,7 +54,7 @@ final class InsertQuery implements ExpressionInterface
 		return $this;
 	}
 
-	public function isValid(): bool
+	public function valid(): bool
 	{
 		return !!$this->values;
 	}
@@ -79,7 +79,7 @@ final class InsertQuery implements ExpressionInterface
 			$sql[] = 'ignore';
 		}
 
-		if ($this->tables->isValid()) {
+		if ($this->tables->valid()) {
 			$sql[] = 'into';
 			$sql[] = $this->tables->compile($params);
 		}

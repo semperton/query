@@ -87,9 +87,9 @@ final class Join implements ExpressionInterface
 		return $this->type;
 	}
 
-	public function isValid(): bool
+	public function valid(): bool
 	{
-		return $this->tables->isValid() && $this->filter->isValid();
+		return $this->tables->valid() && $this->filter->valid();
 	}
 
 	public function reset(): self

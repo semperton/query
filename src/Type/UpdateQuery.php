@@ -65,9 +65,9 @@ final class UpdateQuery implements ExpressionInterface
 		return $this;
 	}
 
-	public function isValid(): bool
+	public function valid(): bool
 	{
-		return !!$this->values && $this->tables->isValid();
+		return !!$this->values && $this->tables->valid();
 	}
 
 	public function reset(): self
@@ -88,7 +88,7 @@ final class UpdateQuery implements ExpressionInterface
 
 		$sql = ['update'];
 
-		if ($this->tables->isValid()) {
+		if ($this->tables->valid()) {
 			$sql[] = $this->tables->compile($params);
 		}
 
@@ -108,12 +108,12 @@ final class UpdateQuery implements ExpressionInterface
 
 		$sql[] = implode(', ', $assign);
 
-		if ($this->where->isValid()) {
+		if ($this->where->valid()) {
 			$sql[] = 'where';
 			$sql[] = $this->where->compile($params);
 		}
 
-		if ($this->orderBy->isValid()) {
+		if ($this->orderBy->valid()) {
 			$sql[] = 'order by';
 			$sql[] = $this->orderBy->compile($params);
 		}

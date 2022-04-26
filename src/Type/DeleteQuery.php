@@ -45,9 +45,9 @@ final class DeleteQuery implements ExpressionInterface
 		return $this;
 	}
 
-	public function isValid(): bool
+	public function valid(): bool
 	{
-		return $this->tables->isValid();
+		return $this->tables->valid();
 	}
 
 	public function reset(): self
@@ -67,19 +67,19 @@ final class DeleteQuery implements ExpressionInterface
 
 		$sql = ['delete'];
 
-		if ($this->tables->isValid()) {
+		if ($this->tables->valid()) {
 
 			$sql[] = 'from';
 			$sql[] = $this->tables->compile($params);
 		}
 
-		if ($this->where->isValid()) {
+		if ($this->where->valid()) {
 
 			$sql[] = 'where';
 			$sql[] = $this->where->compile($params);
 		}
 
-		if ($this->orderBy->isValid()) {
+		if ($this->orderBy->valid()) {
 			$sql[] = 'order by';
 			$sql[] = $this->orderBy->compile($params);
 		}

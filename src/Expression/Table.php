@@ -39,7 +39,7 @@ final class Table implements ExpressionInterface
 		return $this;
 	}
 
-	public function isValid(): bool
+	public function valid(): bool
 	{
 		return !!$this->tables;
 	}
@@ -61,7 +61,7 @@ final class Table implements ExpressionInterface
 			$alias = $entry[1];
 
 			if ($table instanceof ExpressionInterface) {
-				if ($table->isValid()) {
+				if ($table->valid()) {
 					$expr = '(' . $table->compile($params) . ')';
 					if ($alias !== '') {
 						$expr .= ' ' . $this->factory->maybeQuote($alias);
@@ -80,7 +80,7 @@ final class Table implements ExpressionInterface
 				$subSelect = new SelectQuery($this->factory);
 				$table($subSelect);
 
-				if ($subSelect->isValid()) {
+				if ($subSelect->valid()) {
 					$sql[] = '(' . $subSelect->compile($params) . ') ' . $this->factory->maybeQuote($alias);
 				}
 			}
