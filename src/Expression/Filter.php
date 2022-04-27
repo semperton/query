@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Semperton\Query\Expression;
 
 use Closure;
+use Countable;
 use Semperton\Query\ExpressionInterface;
 use Semperton\Query\QueryFactory;
 
@@ -14,9 +15,9 @@ use function strtolower;
 use function array_shift;
 use function count;
 
-final class Filter implements ExpressionInterface
+final class Filter implements ExpressionInterface, Countable
 {
-	/** @var list<array{
+	/** @var array<int, array{
 	 * 0: string,
 	 * 1: string|Closure|ExpressionInterface,
 	 * 2: null|string,
@@ -50,6 +51,11 @@ final class Filter implements ExpressionInterface
 	{
 		$this->conditions[] = ['or', $col, $op, $val];
 		return $this;
+	}
+
+	public function count(): int
+	{
+		return count($this->conditions);
 	}
 
 	public function valid(): bool
@@ -88,6 +94,7 @@ final class Filter implements ExpressionInterface
 	{
 		$params = $params ?? [];
 		$sql = [];
+		$count = $this->count();
 
 		foreach ($this->conditions as $condition) {
 
@@ -104,7 +111,7 @@ final class Filter implements ExpressionInterface
 				if ($column instanceof Closure) {
 
 					$filter = new self($this->factory);
-					$column($filter);
+					$column($filter, $this->factory);
 				} else if ($column instanceof \Semperton\Search\Filter) {
 
 					$filter = new self($this->factory);
@@ -114,8 +121,14 @@ final class Filter implements ExpressionInterface
 				}
 
 				if ($filter->valid()) {
+
 					$sql[] = $bool;
-					$sql[] = '(' . $filter->compile($params) . ')';
+					$compiled = $filter->compile($params);
+					// add parentheses if necessary
+					if ($count > 1 && $filter->count() > 1) {
+						$compiled = '(' . $compiled . ')';
+					}
+					$sql[] = $compiled;
 				}
 
 				continue;
