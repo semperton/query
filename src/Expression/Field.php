@@ -11,7 +11,7 @@ use function implode;
 
 final class Field implements ExpressionInterface
 {
-	/** @var list<array{0: string|ExpressionInterface, 1: string}> */
+	/** @var array<int, array{0: string|ExpressionInterface, 1: string}> */
 	protected $fields = [];
 
 	/** @var QueryFactory */

@@ -15,7 +15,7 @@ use function implode;
 
 final class Table implements ExpressionInterface
 {
-	/** @var list<array{0: string|Closure|ExpressionInterface, 1: string}> */
+	/** @var array<int, array{0: string|Closure|ExpressionInterface, 1: string}> */
 	protected $tables = [];
 
 	/** @var QueryFactory */
