@@ -96,39 +96,26 @@ final class Filter implements ExpressionInterface
 			$operator = $condition[2];
 			$value = $condition[3];
 
-			if ($column instanceof Closure) { // sub filter closure
+			if (
+				$column instanceof Closure ||
+				$column instanceof Filter ||
+				$column instanceof \Semperton\Search\Filter
+			) {
+				if ($column instanceof Closure) {
 
-				$subFilter = new self($this->factory);
+					$filter = new self($this->factory);
+					$column($filter);
+				} else if ($column instanceof \Semperton\Search\Filter) {
 
-				$column($subFilter);
-
-				if ($subFilter->valid()) {
-					$sql[] = $bool;
-					$sql[] = '(' . $subFilter->compile($params) . ')';
+					$filter = new self($this->factory);
+					$this->addSearchFilter($filter, $column);
+				} else {
+					$filter = $column;
 				}
-
-				continue;
-			}
-
-			if ($column instanceof \Semperton\Search\Filter) {
-
-				$filter = new self($this->factory);
-
-				$this->addSearchFilter($filter, $column);
 
 				if ($filter->valid()) {
 					$sql[] = $bool;
 					$sql[] = '(' . $filter->compile($params) . ')';
-				}
-
-				continue;
-			}
-
-			if ($column instanceof Filter) {
-
-				if ($column->valid()) {
-					$sql[] = $bool;
-					$sql[] = '(' . $column->compile($params) . ')';
 				}
 
 				continue;
