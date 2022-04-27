@@ -9,6 +9,59 @@ use Semperton\Search\Filter as SearchFilter;
 
 final class FilterTest extends TestCase
 {
+	public function testCount(): void
+	{
+		$queryFilter = new QueryFilter(new QueryFactory());
+
+		$this->assertEquals(0, $queryFilter->count());
+
+		$queryFilter->and('id', '>', 5);
+
+		$this->assertEquals(1, $queryFilter->count());
+
+		$queryFilter->or('id', '=', 1);
+
+		$this->assertEquals(2, $queryFilter->count());
+	}
+
+	public function testValid(): void
+	{
+		$queryFilter = new QueryFilter(new QueryFactory());
+
+		$this->assertFalse($queryFilter->valid());
+
+		$queryFilter->and('id', '=', 1);
+
+		$this->assertTrue($queryFilter->valid());
+
+		$queryFilter->reset();
+
+		$this->assertFalse($queryFilter->valid());
+	}
+
+	public function testRegularFilter(): void
+	{
+		$queryFilter = new QueryFilter(new QueryFactory());
+
+		$queryFilter->and('id', '=', 1);
+		$this->assertTrue($queryFilter->valid());
+
+		$sql = $queryFilter->compile();
+		$this->assertEquals('id = :p1', $sql);
+
+		$queryFilter->or('name', 'like', 'John');
+
+		$sql = $queryFilter->compile();
+		$this->assertEquals('id = :p2 or name like :p3', $sql);
+
+		$queryFilter->and(static function (QueryFilter $filter) {
+			$filter->and('type', 'like', 'user');
+		});
+
+		$sql = $queryFilter->compile();
+		$this->assertEquals('id = :p4 or name like :p5 and type like :p6', $sql);
+	}
+
 	public function testSearchFilter(): void
 	{
 		$queryFilter = new QueryFilter(new QueryFactory());
@@ -20,9 +73,28 @@ final class FilterTest extends TestCase
 
 		$this->assertTrue($queryFilter->valid());
 
-		$params = [];
-		$sql = $queryFilter->compile($params);
+		$sql = $queryFilter->compile();
 		$this->assertEquals('id = :p1 or (name like :p2 and age > :p3)', $sql);
-		$this->assertEquals([':p1' => 22, ':p2' => 'John', ':p3' => 44], $params);
+	}
+
+	public function testClosureFilter(): void
+	{
+		$queryFilter = new QueryFilter(new QueryFactory());
+
+		$closureFilter = static function (QueryFilter $filter) {
+			$filter->and('id', '=', 55)->or('name', 'like', 'John');
+		};
+
+		$queryFilter->and($closureFilter);
+		$this->assertTrue($queryFilter->valid());
+
+		$sql = $queryFilter->compile();
+		$this->assertEquals('id = :p1 or name like :p2', $sql);
+
+		$queryFilter->and('age', '>', 22);
+		$this->assertTrue($queryFilter->valid());
+
+		$sql = $queryFilter->compile();
+		$this->assertEquals('(id = :p3 or name like :p4) and age > :p5', $sql);
 	}
 }
