@@ -18,7 +18,7 @@ final class InsertQuery implements ExpressionInterface
 {
 	use ExpressionTrait;
 
-	/** @var array */
+	/** @var array<string, scalar|ExpressionInterface> */
 	protected $values = [];
 
 	/** @var Table */
@@ -48,6 +48,9 @@ final class InsertQuery implements ExpressionInterface
 		return $this;
 	}
 
+	/**
+	 * @param array<string, scalar|ExpressionInterface> $values
+	 */
 	public function values(array $values): self
 	{
 		$this->values = $values;
@@ -87,14 +90,13 @@ final class InsertQuery implements ExpressionInterface
 		$sql[] = '(' . implode(', ', array_keys($this->values)) . ')';
 
 		$values = [];
-		/** @var mixed */
+
 		foreach ($this->values as $value) {
 
 			if ($value instanceof ExpressionInterface) {
 				$values[] = $value->compile($params);
 			} else {
 				$param = $this->factory->nextParam();
-				/** @var mixed */
 				$params[$param] = $value;
 				$values[] = $param;
 			}

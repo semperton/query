@@ -16,11 +16,11 @@ use function count;
 
 final class Filter implements ExpressionInterface
 {
-	/** @var array<int, array{
-	 * string,
-	 * string|Closure|ExpressionInterface,
-	 * null|string,
-	 * null|scalar|array|ExpressionInterface
+	/** @var list<array{
+	 * 0: string,
+	 * 1: string|Closure|ExpressionInterface,
+	 * 2: null|string,
+	 * 3: null|scalar|array|ExpressionInterface
 	 * }> */
 	protected $conditions = [];
 

@@ -26,7 +26,7 @@ final class UpdateQuery implements ExpressionInterface
 	use WhereTrait;
 	use LimitTrait;
 
-	/** @var array<array-key, null|scalar|ExpressionInterface> */
+	/** @var (null|scalar|ExpressionInterface)[] */
 	protected $values = [];
 
 	/** @var Table */

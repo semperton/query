@@ -14,7 +14,7 @@ final class Func implements ExpressionInterface
 	/** @var string */
 	protected $name;
 
-	/** @var array<scalar|ExpressionInterface> */
+	/** @var (scalar|ExpressionInterface)[] */
 	protected $args;
 
 	/** @var QueryFactory */
