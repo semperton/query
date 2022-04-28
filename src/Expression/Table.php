@@ -10,7 +10,6 @@ use Semperton\Query\ExpressionInterface;
 use Semperton\Query\QueryFactory;
 use Semperton\Query\Type\SelectQuery;
 
-use function is_string;
 use function implode;
 
 final class Table implements ExpressionInterface
@@ -31,8 +30,8 @@ final class Table implements ExpressionInterface
 	 */
 	public function add($table, string $alias = ''): self
 	{
-		if ($table instanceof Closure && $alias === '') {
-			throw new InvalidArgumentException('Alias cannot be empty for sub select');
+		if ($alias === '' && ($table instanceof Closure || $table instanceof ExpressionInterface)) {
+			throw new InvalidArgumentException('Alias cannot be empty for subquery');
 		}
 
 		$this->tables[] = [$table, $alias];
@@ -60,29 +59,33 @@ final class Table implements ExpressionInterface
 			$table = $entry[0];
 			$alias = $entry[1];
 
-			if ($table instanceof ExpressionInterface) {
-				if ($table->valid()) {
-					$expr = '(' . $table->compile($params) . ')';
-					if ($alias !== '') {
-						$expr .= ' ' . $this->factory->maybeQuote($alias);
-					}
-					$sql[] = $expr;
-				}
-			} else if (is_string($table)) {
-				$table = $this->factory->maybeQuote($table);
-				if ($alias === '') {
-					$sql[] = $table;
-				} else {
-					$sql[] = $table . ' ' . $this->factory->maybeQuote($alias);
-				}
-			} else {
+			if ($table instanceof Closure) {
 
 				$subSelect = new SelectQuery($this->factory);
-				$table($subSelect);
+				$table($subSelect, $this->factory);
 
 				if ($subSelect->valid()) {
 					$sql[] = '(' . $subSelect->compile($params) . ') ' . $this->factory->maybeQuote($alias);
 				}
+			} else if ($table instanceof ExpressionInterface) {
+
+				if ($table->valid()) {
+
+					$expr = '(' . $table->compile($params) . ')';
+					if ($alias !== '') {
+						$expr .= ' ' . $this->factory->maybeQuote($alias);
+					}
+
+					$sql[] = $expr;
+				}
+			} else { // string
+
+				$table = $this->factory->maybeQuote($table);
+				if ($alias !== '') {
+					$table .= ' ' . $this->factory->maybeQuote($alias);
+				}
+
+				$sql[] = $table;
 			}
 		}
 
