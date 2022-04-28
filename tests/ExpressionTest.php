@@ -113,21 +113,4 @@ final class ExpressionTest extends TestCase
 
 		$this->assertEquals('"table".*', $ident->compile());
 	}
-
-	public function testTable(): void
-	{
-		$this->expectException(InvalidArgumentException::class);
-		$factory = new QueryFactory();
-		$table = new Table($factory);
-
-		$table->add(function (SelectQuery $query) {
-			$query->from('user')->where('id', '>', 3);
-		}, 'users');
-
-		$this->assertEquals('(select * from user where id > :p1) users', $table->compile());
-
-		$table->reset();
-		$table->add(function (SelectQuery $query) {
-		});
-	}
 }
