@@ -97,4 +97,13 @@ final class FilterTest extends TestCase
 		$sql = $queryFilter->compile();
 		$this->assertEquals('(id = :p3 or name like :p4) and age > :p5', $sql);
 	}
+
+	public function testNull(): void
+	{
+		$queryFilter = new QueryFilter(new QueryFactory());
+		$queryFilter->and('name', 'not null');
+
+		$sql = $queryFilter->compile();
+		$this->assertEquals('name not null', $sql);
+	}
 }

@@ -178,7 +178,7 @@ final class Filter implements ExpressionInterface, Countable
 				} else {
 					$sql[] = '(' . implode(', ', $subParams) . ')';
 				}
-			} else {
+			} else if ($value !== null) {
 				$param = $this->factory->nextParam();
 				$params[$param] = $value;
 				$sql[] = $param;
