@@ -100,10 +100,16 @@ final class FilterTest extends TestCase
 
 	public function testNull(): void
 	{
-		$queryFilter = new QueryFilter(new QueryFactory());
-		$queryFilter->and('name', 'not null');
+		$factory = new QueryFactory();
+		$queryFilter = new QueryFilter($factory);
+		$queryFilter->and('name', 'is null');
 
 		$sql = $queryFilter->compile();
-		$this->assertEquals('name not null', $sql);
+		$this->assertEquals('name is null', $sql);
+
+		$queryFilter->reset();
+		$queryFilter->and('number', 'is not', $factory->raw('null'));
+
+		$this->assertEquals('number is not null', $queryFilter->compile());
 	}
 }
