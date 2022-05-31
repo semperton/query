@@ -26,7 +26,7 @@ final class Func implements ExpressionInterface
 	public function __construct(QueryFactory $factory, string $name, ...$args)
 	{
 		$this->factory = $factory;
-		$this->name = $name;
+		$this->name = trim($name);
 		$this->args = $args;
 	}
 
