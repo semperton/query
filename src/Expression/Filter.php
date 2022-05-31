@@ -154,6 +154,10 @@ final class Filter implements ExpressionInterface, Countable
 			$operator = strtolower($operator);
 			$sql[] = $operator;
 
+			if ($value === null) {
+				continue;
+			}
+
 			if ($value instanceof ExpressionInterface) {
 				$sql[] = $value->compile($params);
 			} else if (is_array($value)) {
@@ -178,7 +182,7 @@ final class Filter implements ExpressionInterface, Countable
 				} else {
 					$sql[] = '(' . implode(', ', $subParams) . ')';
 				}
-			} else if ($value !== null) {
+			} else {
 				$param = $this->factory->nextParam();
 				$params[$param] = $value;
 				$sql[] = $param;
