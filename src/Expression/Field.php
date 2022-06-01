@@ -27,6 +27,8 @@ final class Field implements ExpressionInterface
 	 */
 	public function add($field, string $alias = ''): self
 	{
+		$alias = trim($alias);
+
 		$this->fields[] = [$field, $alias];
 		return $this;
 	}
@@ -58,11 +60,11 @@ final class Field implements ExpressionInterface
 				$field = $this->factory->maybeQuote($field);
 			}
 
-			if ($alias === '') {
-				$sql[] = $field;
-			} else {
-				$sql[] = $field . ' ' . $this->factory->maybeQuote($alias);
+			if ($alias !== '') {
+				$field .= ' ' . $this->factory->maybeQuote($alias);
 			}
+
+			$sql[] = $field;
 		}
 
 		return implode(', ', $sql);
