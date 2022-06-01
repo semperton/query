@@ -8,6 +8,7 @@ use Closure;
 use Countable;
 use Semperton\Query\ExpressionInterface;
 use Semperton\Query\QueryFactory;
+use Semperton\Search\Filter as SearchFilter;
 
 use function implode;
 use function is_array;
@@ -19,7 +20,7 @@ final class Filter implements ExpressionInterface, Countable
 {
 	/** @var array<int, array{
 	 * 0: string,
-	 * 1: string|Closure|ExpressionInterface,
+	 * 1: string|Closure|SearchFilter|ExpressionInterface,
 	 * 2: null|string,
 	 * 3: null|scalar|array|ExpressionInterface
 	 * }> */
@@ -34,7 +35,7 @@ final class Filter implements ExpressionInterface, Countable
 	}
 
 	/**
-	 * @param string|Closure|ExpressionInterface $col
+	 * @param string|Closure|SearchFilter|ExpressionInterface $col
 	 * @param null|scalar|array|ExpressionInterface $val
 	 */
 	public function and($col, ?string $op = null, $val = null): self
@@ -44,7 +45,7 @@ final class Filter implements ExpressionInterface, Countable
 	}
 
 	/**
-	 * @param string|Closure|ExpressionInterface $col
+	 * @param string|Closure|SearchFilter|ExpressionInterface $col
 	 * @param null|scalar|array|ExpressionInterface $val
 	 */
 	public function or($col, ?string $op = null, $val = null): self
@@ -69,13 +70,13 @@ final class Filter implements ExpressionInterface, Countable
 		return $this;
 	}
 
-	protected function addSearchFilter(Filter $filter, \Semperton\Search\Filter $searchFilter): void
+	protected function addSearchFilter(Filter $filter, SearchFilter $searchFilter): void
 	{
 		foreach ($searchFilter as $connection => $entry) {
 
 			$connect = $connection === $searchFilter::CONNECTION_AND ? 'and' : 'or';
 
-			if ($entry instanceof \Semperton\Search\Filter) {
+			if ($entry instanceof SearchFilter) {
 
 				$subFilter = new self($this->factory);
 
@@ -106,13 +107,13 @@ final class Filter implements ExpressionInterface, Countable
 			if (
 				$column instanceof Closure ||
 				$column instanceof Filter ||
-				$column instanceof \Semperton\Search\Filter
+				$column instanceof SearchFilter
 			) {
 				if ($column instanceof Closure) {
 
 					$filter = new self($this->factory);
 					$column($filter, $this->factory);
-				} else if ($column instanceof \Semperton\Search\Filter) {
+				} else if ($column instanceof SearchFilter) {
 
 					$filter = new self($this->factory);
 					$this->addSearchFilter($filter, $column);
