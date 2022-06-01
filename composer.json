@@ -4,7 +4,7 @@
     "type": "library",
     "license": "MIT",
     "require": {
-        "php": ">=7.2.0"
+        "php": ">=7.2"
     },
     "autoload": {
         "psr-4": {
@@ -18,6 +18,6 @@
     "require-dev": {
         "phpunit/phpunit": "^9.5",
         "vimeo/psalm": "^4.7",
-        "semperton/search": "^0.1.0"
+        "semperton/search": "^0.2.0"
     }
 }

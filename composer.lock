@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c5046d9ff88dd0ada8c47c6a5cb806d3",
+    "content-hash": "8f360072b5be46ae481d1438ba59eddd",
     "packages": [],
     "packages-dev": [
         {
@@ -2719,20 +2719,20 @@
         },
         {
             "name": "semperton/search",
-            "version": "0.1.0",
+            "version": "0.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/semperton/search.git",
-                "reference": "99238ed236aabf1f45a86fab7d7caecf4242244f"
+                "reference": "e648f19cc84675914fe84df88f1818010c94407d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/semperton/search/zipball/99238ed236aabf1f45a86fab7d7caecf4242244f",
-                "reference": "99238ed236aabf1f45a86fab7d7caecf4242244f",
+                "url": "https://api.github.com/repos/semperton/search/zipball/e648f19cc84675914fe84df88f1818010c94407d",
+                "reference": "e648f19cc84675914fe84df88f1818010c94407d",
                 "shasum": ""
             },
             "require": {
-                "php": ">=7.1"
+                "php": ">=7.2"
             },
             "require-dev": {
                 "phpunit/phpunit": "^9.5",
@@ -2757,9 +2757,9 @@
             "description": "Components to build data search criteria.",
             "support": {
                 "issues": "https://github.com/semperton/search/issues",
-                "source": "https://github.com/semperton/search/tree/0.1.0"
+                "source": "https://github.com/semperton/search/tree/0.2.0"
             },
-            "time": "2022-04-22T08:53:49+00:00"
+            "time": "2022-05-31T15:11:54+00:00"
         },
         {
             "name": "symfony/console",
@@ -3709,7 +3709,7 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=7.2.0"
+        "php": ">=7.2"
     },
     "platform-dev": [],
     "plugin-api-version": "2.2.0"
