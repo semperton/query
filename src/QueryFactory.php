@@ -99,6 +99,21 @@ class QueryFactory
 		return ':' . $this->parameterPrefix . $num;
 	}
 
+	public function getQuoteString(): string
+	{
+		return $this->quoteStr;
+	}
+
+	public function getEscapeString(): string
+	{
+		return $this->escapeStr;
+	}
+
+	public function usingQuotes(): bool
+	{
+		return $this->quoting;
+	}
+
 	public function maybeQuote(string $field): string
 	{
 		if ($this->quoting) {
@@ -126,25 +141,21 @@ class QueryFactory
 
 	public function escapeString(string $str): string
 	{
-		return $this->sqlEscape($str);
+		$escape = $this->escapeStr;
+		return str_replace($escape, $escape . $escape, $str);
 	}
 
 	protected function sqlQuote(string $str): string
 	{
 		$quote = $this->quoteStr;
+
 		if ($quote === self::QUOTE_STR_MSSQL) {
 
-			$str = str_replace([$quote, ']'], [$quote . $quote, ']]'], $str);
-			return $quote . $str . ']';
+			$str = str_replace(['[', ']'], ['[[', ']]'], $str);
+			return '[' . $str . ']';
 		}
 
 		$str = str_replace($quote, $quote . $quote, $str);
 		return $quote . $str . $quote;
-	}
-
-	protected function sqlEscape(string $str): string
-	{
-		$escape = $this->escapeStr;
-		return str_replace($escape, $escape . $escape, $str);
 	}
 }
