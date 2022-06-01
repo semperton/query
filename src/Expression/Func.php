@@ -6,6 +6,7 @@ namespace Semperton\Query\Expression;
 
 use Semperton\Query\QueryFactory;
 use Semperton\Query\ExpressionInterface;
+use Semperton\Query\Type\SelectQuery;
 
 use function implode;
 
@@ -48,7 +49,14 @@ final class Func implements ExpressionInterface
 		foreach ($this->args as $arg) {
 
 			if ($arg instanceof ExpressionInterface) {
-				$sql[] = $arg->compile($params);
+
+				$expr = $arg->compile($params);
+
+				if ($arg instanceof SelectQuery) {
+					$expr = '(' . $expr . ')';
+				}
+
+				$sql[] = $expr;
 			} else {
 				$param = $this->factory->nextParam();
 				$params[$param] = $arg;
