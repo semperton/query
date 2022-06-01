@@ -43,21 +43,24 @@ trait ExpressionTrait
 		return $this->factory->func($name, ...$args);
 	}
 
-	/**
-	 * @psalm-suppress all
-	 */
 	public function debug(): string
 	{
 		$params = [];
 		$sql = $this->compile($params);
 
+		/** @var array<array-key, scalar> $params */
+
+		$escapeStr = $this->factory->getEscapeString();
+
 		foreach ($params as &$value) {
 			if (is_string($value)) {
-				$value = "'" . $this->factory->escapeString($value) . "'";
+				$value = $escapeStr . $this->factory->escapeString($value) . $escapeStr;
 			} else if (is_bool($value)) {
 				$value = (int)$value;
 			}
 		}
+
+		/** @var array<array-key, float|int|string> $params */
 
 		$search = array_keys($params);
 		$replace = array_values($params);
