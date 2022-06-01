@@ -124,12 +124,12 @@ final class Filter implements ExpressionInterface, Countable
 				if ($filter->valid()) {
 
 					$sql[] = $bool;
-					$compiled = $filter->compile($params);
+					$expr = $filter->compile($params);
 					// add parentheses if necessary
 					if ($count > 1 && $filter->count() > 1) {
-						$compiled = '(' . $compiled . ')';
+						$expr = '(' . $expr . ')';
 					}
-					$sql[] = $compiled;
+					$sql[] = $expr;
 				}
 
 				continue;
