@@ -30,6 +30,8 @@ final class Table implements ExpressionInterface
 	 */
 	public function add($table, string $alias = ''): self
 	{
+		$alias = trim($alias);
+
 		if ($alias === '' && ($table instanceof Closure || $table instanceof ExpressionInterface)) {
 			throw new InvalidArgumentException('Alias cannot be empty for subquery');
 		}
@@ -71,12 +73,13 @@ final class Table implements ExpressionInterface
 
 				if ($table->valid()) {
 
-					$expr = '(' . $table->compile($params) . ')';
-					if ($alias !== '') {
-						$expr .= ' ' . $this->factory->maybeQuote($alias);
+					$expr = $table->compile($params);
+
+					if ($table instanceof SelectQuery) {
+						$expr = '(' . $expr . ')';
 					}
 
-					$sql[] = $expr;
+					$sql[] = $expr . ' ' . $this->factory->maybeQuote($alias);
 				}
 			} else { // string
 
